@@ -76,11 +76,17 @@ All engineering work must strictly adhere to our foundational principles:
 
 ---
 
-## 4. Development Workflow & Git Conventions
+## 4. Development Workflow & Engineering Loop
+
+### Implementation Loop
+$$\text{Task} \longrightarrow \text{Inspect} \longrightarrow \text{Plan} \longrightarrow \text{Implement} \longrightarrow \text{Test} \longrightarrow \text{Review} \longrightarrow \text{Commit}$$
+
+- **Small Tasks**: May be implemented directly when architecture is established, changes are local, and behavior is unambiguous.
+- **Architectural Tasks**: Require a design proposal, affected modules list, tradeoff analysis, dependency assessment, and testing plan before implementation.
 
 ### Branch Naming Convention
 - `main`: Stable, production-ready branch (protected).
-- `feat/<domain>-<feature-name>` (e.g., `feat/eligibility-rule-parser`, `feat/web-scheme-card`).
+- `feat/<domain>-<feature-name>` (e.g., `feat/eligibility-rule-parser`).
 - `fix/<issue-name>` (e.g., `fix/doc-verification-status-bug`).
 - `docs/<doc-title>` (e.g., `docs/adr-001-architecture`).
 
@@ -91,9 +97,7 @@ We follow **Conventional Commits**:
 - `docs(adr): add ADR-001 project architecture`
 - `ci(docker): configure postgres service in docker-compose`
 
-### Architecture Decision Records (ADRs)
-- Any major architectural decision must be documented as an ADR in `docs/decisions/`.
-- ADRs must follow the format defined in `docs/decisions/ADR-001-project-architecture.md`.
+Do NOT use vague messages like `"stuff"`, `"changes"`, or `"working"`.
 
 ---
 
@@ -114,6 +118,9 @@ We follow **Conventional Commits**:
   - Deterministic eligibility rules MUST be 100% unit tested with edge cases.
   - RAG components must be evaluated against grounding metrics to prevent hallucination.
 
+- **Demo vs. Production Mock Labeling**:
+  - Simulated integrations MUST be explicitly labeled (e.g., `MockDigiLockerProvider` instead of `DigiLockerService`). Never disguise mocks as live government integrations.
+
 ---
 
 ## 6. What NOT to Do
@@ -121,4 +128,6 @@ We follow **Conventional Commits**:
 - Do NOT create microservices without technical lead approval and an accepted ADR.
 - Do NOT use LLMs for making final scheme eligibility decisions.
 - Do NOT claim external government portal integration is "production live" without authorized API credentials.
-- Do NOT commit mock or real API secrets or credentials to git.
+- Do NOT commit mock or real API secrets, tokens, or PII credentials to git.
+- Do NOT silently modify project architecture without technical lead approval.
+
