@@ -1,15 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { LandingPage } from '../pages/LandingPage';
 import { AppLayout } from '../components/layout/AppLayout';
+import { OnboardingPage } from '../pages/OnboardingPage';
+import { DashboardPage } from '../pages/DashboardPage';
+import { DiscoveryPage } from '../pages/DiscoveryPage';
 import {
-  DashboardPage,
-  DiscoveryPage,
   SchemeDetailPage,
   EligibilityPage,
   DocumentsPage,
   VerificationPage,
   ReadinessPage,
-  OnboardingPage,
 } from '../pages/Placeholders';
 
 export const router = createBrowserRouter([
