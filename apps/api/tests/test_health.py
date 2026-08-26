@@ -6,7 +6,7 @@ from apps.api.src.main import app
 def test_app_import_and_instantiation():
     """Verify application imports cleanly and initializes."""
     assert app is not None
-    assert app.title == "Citizen Benefits Intelligence Platform API"
+    assert app.title == "Landslide Early Warning & Risk Monitoring API"
 
 
 def test_root_health_check_sync():

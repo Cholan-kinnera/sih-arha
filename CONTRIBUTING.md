@@ -1,133 +1,64 @@
-# Contributing to Citizen Benefits Intelligence Platform (CBIP)
+# Contributing to AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas
 
-Welcome to the **Citizen Benefits Intelligence Platform (CBIP)** repository for **Smart India Hackathon 2026** (Problem Statement **PSS1 — Government Scheme Awareness and Eligibility Assistant**).
+Welcome to the development repository for **AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas**.
 
-This document outlines our engineering standards, development workflow, team roles, and architectural rules. All contributors are expected to read and follow these guidelines.
-
----
-
-## 1. Core Architectural Principles
-
-All engineering work must strictly adhere to our foundational principles:
-
-1. **Separation of Responsibilities**:
-   $$\text{LLM} \neq \text{Eligibility Engine} \neq \text{Verification Authority}$$
-   - **LLM**: Responsible for natural language understanding (NLU), multi-lingual translation, user query intent parsing, grounded answer synthesis, and OCR text extraction assistance.
-   - **Eligibility Engine**: Deterministic, auditable, and versioned rule evaluation. The LLM MUST NOT be used to make final eligibility determinations.
-   - **Verification Authority**: Explicit document evidence verification lifecycle, state management, and re-verification triggers when evidence becomes outdated.
-
-2. **Modular Monolith**:
-   - Maintain clear domain boundaries within `apps/api`. Do not create microservices without explicit technical lead approval and a documented Architecture Decision Record (ADR).
-
-3. **Source Provenance & Grounding**:
-   - All scheme details, rules, and RAG knowledge MUST be grounded in authoritative government sources (official portals, gazette notifications, official guidelines).
-   - Inventing or hallucinating scheme information is strictly prohibited.
-
-4. **Auditability & Explainability**:
-   - Every eligibility outcome must produce a transparent, step-by-step explanation detailing met criteria, unmet criteria, and missing required documents.
-
-5. **Secrets & Privacy Protection**:
-   - Never hardcode secrets, private keys, or API tokens.
-   - Never commit `.env` files or credentials to version control.
-   - Treat all citizen data as sensitive; avoid persisting raw PII unnecessarily.
+This document outlines engineering standards, branch conventions, and workflow rules.
 
 ---
 
-## 2. Team Structure & Domain Ownership
+## 1. Core Engineering Principles
 
-| Team Member | Role | Core Domain / Focus Area |
-| :--- | :--- | :--- |
-| **Technical Lead** | Lead Architect / Tech Lead | Overall Architecture, FastAPI Backend, AI/RAG integration, Core Systems |
-| **Developer 2** | Frontend Engineer | `apps/web` (React + TypeScript + Vite + Tailwind CSS), UI/UX Design System |
-| **Developer 3** | AI/RAG Specialist | `ai/rag`, `ai/prompts`, Scheme Knowledge Base & Vector Embeddings |
-| **Developer 4** | Document Intelligence & DevOps | Document Verification, OCR Workflows, `infra/docker`, CI/CD Pipelines |
-| **Member 5** | Research & Tech Documentation | `docs/`, Scheme Research & Verification, LaTeX Documentation |
-| **Member 6** | Product, Demo & Presentation | User Flows, Presentation Deck, Pitch Preparation, Demo Scenarios |
+1. **Separation of Concerns**:
+   - $\text{Simulator} \rightarrow \text{Data Ingestion} \rightarrow \text{Risk Engine / ML} \rightarrow \text{FastAPI Backend} \rightarrow \text{React Dashboard}$
+   - The ML / Rule-based risk engine evaluates hazard levels and risk scores.
+   - LLMs / Gemini are strictly advisory (natural-language summaries, operator assistance) and **never** calculate the primary numerical risk score.
+
+2. **Clean Modularity & Minimal Dependencies**:
+   - Keep boundaries clean between frontend, backend, simulator, and ML packages.
+   - Avoid bloated dependencies or premature complexity.
+
+3. **Reproducibility & Auditability**:
+   - Every risk computation, threshold evaluation, and model inference must be explainable, deterministic, and traceable.
+
+4. **Security & Secrets Discipline**:
+   - Never commit API keys, secrets, or `.env` files.
+   - Use `.env.example` as a template with placeholder values.
 
 ---
 
-## 3. Recommended Directory Structure
+## 2. Repository Structure
 
-```
-.
+```text
+/
 ├── apps/
-│   ├── api/             # Python FastAPI backend application (Modular Monolith)
-│   └── web/             # React + TypeScript + Vite + Tailwind CSS frontend application
-├── ai/
-│   ├── rag/             # Grounded retrieval & RAG pipelines
-│   ├── prompts/         # System prompts and generation templates
-│   └── evaluation/      # RAG evaluation metrics and test datasets
-├── packages/
-│   └── shared/          # Shared Pydantic schemas, types, DTOs, and constants
+│   ├── web/             # React + Vite + TypeScript dashboard
+│   └── api/             # FastAPI backend (REST + WebSockets)
+├── ml/
+│   ├── training/        # Model training pipelines
+│   ├── preprocessing/   # Geospatial & sensor data feature engineering
+│   ├── inference/       # Model inference engine & scoring
+│   └── models/          # Model artifacts & registry metadata
+├── simulator/           # Synthetic rainfall & sensor stream simulator
 ├── data/
-│   ├── schemes/         # Structured scheme definition specs (YAML/JSON)
-│   ├── sources/         # Official source metadata and citation registries
-│   └── knowledge/       # Preprocessed documents and vector index stores
-├── docs/
-│   ├── architecture/    # Architecture diagrams, system models, domain flows
-│   ├── decisions/       # Architecture Decision Records (ADRs)
-│   ├── research/        # Scheme research notes, target persona analyses
-│   └── api/             # OpenAPI / AsyncAPI specifications
-├── infra/
-│   ├── docker/          # Dockerfiles & Docker Compose setup
-│   └── ci/              # GitHub Actions workflows & CI scripts
-└── tests/               # End-to-end & cross-domain integration test suites
+│   ├── raw/             # Raw environmental & geological datasets
+│   ├── processed/       # Cleaned & structured data
+│   ├── features/        # Precomputed spatial/temporal features
+│   └── metadata/        # Data catalogs & source provenance
+├── docs/                # Architecture, blueprints, roadmaps, and contracts
+├── tests/
+│   ├── backend/         # FastAPI & service unit/integration tests
+│   ├── frontend/        # React component & UI tests
+│   ├── ml/              # ML pipeline & risk scoring validation tests
+│   └── integration/     # End-to-end pipeline tests
+└── scripts/             # Development, simulation, and data utility scripts
 ```
 
 ---
 
-## 4. Development Workflow & Engineering Loop
+## 3. Git Workflow & Discipline
 
-### Implementation Loop
-$$\text{Task} \longrightarrow \text{Inspect} \longrightarrow \text{Plan} \longrightarrow \text{Implement} \longrightarrow \text{Test} \longrightarrow \text{Review} \longrightarrow \text{Commit}$$
-
-- **Small Tasks**: May be implemented directly when architecture is established, changes are local, and behavior is unambiguous.
-- **Architectural Tasks**: Require a design proposal, affected modules list, tradeoff analysis, dependency assessment, and testing plan before implementation.
-
-### Branch Naming Convention
-- `main`: Stable, production-ready branch (protected).
-- `feat/<domain>-<feature-name>` (e.g., `feat/eligibility-rule-parser`).
-- `fix/<issue-name>` (e.g., `fix/doc-verification-status-bug`).
-- `docs/<doc-title>` (e.g., `docs/adr-001-architecture`).
-
-### Commit Message Guidelines
-We follow **Conventional Commits**:
-- `feat(api): add deterministic rule evaluator for PM-KISAN`
-- `fix(web): fix document upload progress display`
-- `docs(adr): add ADR-001 project architecture`
-- `ci(docker): configure postgres service in docker-compose`
-
-Do NOT use vague messages like `"stuff"`, `"changes"`, or `"working"`.
-
----
-
-## 5. Engineering Standards & Quality Controls
-
-- **Python (Backend & AI)**:
-  - PEP 8 compliance, formatted with `black`/`ruff`.
-  - Type hints required for all public functions (`mypy` strict mode).
-  - Use `Pydantic v2` for API schemas and data validation models.
-  - SQLAlchemy 2.0 style for ORM queries; Alembic for database migrations.
-
-- **TypeScript (Frontend)**:
-  - Strict mode enabled in `tsconfig.json`.
-  - Clean component design with reusable Tailwind CSS utility classes.
-  - ESLint and Prettier for code consistency.
-
-- **Testing Requirements**:
-  - Deterministic eligibility rules MUST be 100% unit tested with edge cases.
-  - RAG components must be evaluated against grounding metrics to prevent hallucination.
-
-- **Demo vs. Production Mock Labeling**:
-  - Simulated integrations MUST be explicitly labeled (e.g., `MockDigiLockerProvider` instead of `DigiLockerService`). Never disguise mocks as live government integrations.
-
----
-
-## 6. What NOT to Do
-
-- Do NOT create microservices without technical lead approval and an accepted ADR.
-- Do NOT use LLMs for making final scheme eligibility decisions.
-- Do NOT claim external government portal integration is "production live" without authorized API credentials.
-- Do NOT commit mock or real API secrets, tokens, or PII credentials to git.
-- Do NOT silently modify project architecture without technical lead approval.
-
+- `main`: Active development branch.
+- `archive/cbit-project`: Preserved historical archive branch.
+- Feature branches: `feat/<feature-name>`, `fix/<issue-name>`, `docs/<doc-name>`.
+- Commit style: Conventional Commits (`feat: ...`, `fix: ...`, `docs: ...`, `chore: ...`).
+- Never commit secrets or large raw binary datasets to version control.

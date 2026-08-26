@@ -14,7 +14,7 @@ def setup_logging() -> logging.Logger:
         handlers=[logging.StreamHandler(sys.stdout)],
     )
 
-    logger = logging.getLogger("cbip.api")
+    logger = logging.getLogger("landslide.api")
     logger.setLevel(log_level)
     return logger
 

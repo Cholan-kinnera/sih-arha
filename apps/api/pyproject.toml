@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cbip-api"
+name = "landslide-api"
 version = "0.1.0"
-description = "CBIP FastAPI Backend Modular Monolith Application"
+description = "FastAPI Backend for Landslide Early Warning & Risk Monitoring"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -14,8 +14,8 @@ dependencies = [
     "pydantic>=2.0.0",
     "pydantic-settings>=2.0.0",
     "sqlalchemy[asyncio]>=2.0.0",
-    "asyncpg>=0.28.0",
-    "alembic>=1.12.0"
+    "aiosqlite>=0.19.0",
+    "websockets>=12.0"
 ]
 
 [project.optional-dependencies]
@@ -32,4 +32,3 @@ include = ["src*"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 pythonpath = [".", "../../"]
-
