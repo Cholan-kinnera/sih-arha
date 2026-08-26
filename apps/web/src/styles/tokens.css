@@ -1,0 +1,75 @@
+/**
+ * LEWS Design System Tokens — Light Enterprise Edition
+ * Authoritative specification: docs/UI_DESIGN_SYSTEM.md
+ */
+
+:root {
+  /* Surfaces & Backgrounds */
+  --bg-canvas: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-subtle: #f1f5f9;
+  --bg-surface-elevated: #ffffff;
+  --bg-overlay: rgba(15, 23, 42, 0.4);
+
+  /* Borders & Dividers */
+  --border-subtle: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-strong: #94a3b8;
+  --border-focus: #2563eb;
+
+  /* Typography Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-disabled: #cbd5e1;
+  --text-inverse: #ffffff;
+
+  /* Brand Colors */
+  --color-brand: #2563eb;
+  --color-brand-hover: #1d4ed8;
+  --color-brand-subtle: #eff6ff;
+  --color-brand-border: #bfdbfe;
+
+  /* Semantic Hazard Tiers */
+  --risk-low: #16a34a;
+  --risk-low-bg: #f0fdf4;
+  --risk-low-border: #bbf7d0;
+
+  --risk-moderate: #d97706;
+  --risk-moderate-bg: #fffbeb;
+  --risk-moderate-border: #fde68a;
+
+  --risk-high: #ea580c;
+  --risk-high-bg: #fff7ed;
+  --risk-high-border: #fed7aa;
+
+  --risk-critical: #dc2626;
+  --risk-critical-bg: #fef2f2;
+  --risk-critical-border: #fecaca;
+
+  /* System & Simulator */
+  --color-info: #2563eb;
+  --color-info-bg: #eff6ff;
+  --color-info-border: #bfdbfe;
+
+  --color-simulator: #d97706;
+  --color-simulator-bg: #fffbeb;
+  --color-simulator-border: #fde68a;
+
+  /* Font Families */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Border Radii */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-drawer: -4px 0 20px rgba(0, 0, 0, 0.08);
+}
