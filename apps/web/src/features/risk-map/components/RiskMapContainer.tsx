@@ -18,8 +18,8 @@ export interface RiskMapContainerProps {
   onToggleLayer: (layerKey: keyof LayerVisibilityState) => void;
 }
 
-const DEFAULT_CENTER: [number, number] = [11.55, 76.12];
-const DEFAULT_ZOOM = 11;
+const DEFAULT_CENTER: [number, number] = [26.15, 93.00];
+const DEFAULT_ZOOM = 7;
 
 const MapController: React.FC<{ onReset: () => void }> = ({ onReset }) => {
   const map = useMap();

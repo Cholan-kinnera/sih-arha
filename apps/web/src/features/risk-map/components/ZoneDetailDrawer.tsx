@@ -63,7 +63,7 @@ export const ZoneDetailDrawer: React.FC<ZoneDetailDrawerProps> = ({ zone, onClos
             </div>
             <h2 className="text-base font-bold text-slate-900 leading-snug">{zone.name}</h2>
             <p className="text-xs text-slate-500 font-medium mt-0.5">
-              {zone.district}, {zone.state} · Wayanad Basin Sector
+              {zone.district}, {zone.state} · North-Eastern Region (NER) Sector
             </p>
           </div>
           <IconButton
@@ -187,14 +187,14 @@ export const ZoneDetailDrawer: React.FC<ZoneDetailDrawerProps> = ({ zone, onClos
                   <Mountain className="w-3.5 h-3.5 text-amber-600" /> Slope Angle
                 </div>
                 <div className="text-sm font-bold font-mono-data text-slate-900">
-                  {zone.slope.toFixed(1)}°
+                  {zone.slope > 0 ? `${zone.slope.toFixed(1)}°` : 'DEM Unavailable'}
                 </div>
               </div>
             </div>
 
             <div className="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-[6px] border border-slate-200/80 leading-relaxed font-sans">
               <span className="font-semibold text-slate-700">Elevation:</span>{' '}
-              <span className="font-mono-data font-bold">{zone.elevation}m ASL</span> |{' '}
+              <span className="font-mono-data font-bold">{zone.elevation > 0 ? `${zone.elevation}m ASL` : 'DEM Coverage Unavailable'}</span> |{' '}
               <span className="font-semibold text-slate-700">Soil:</span> {zone.soil_type}
             </div>
           </div>

@@ -51,7 +51,7 @@ export const Sidebar: React.FC = () => {
             <h1 className="text-sm font-bold text-slate-900 tracking-tight truncate">
               {APP_METADATA.NAME}
             </h1>
-            <p className="text-[11px] text-slate-500 truncate">Early Warning System</p>
+            <p className="text-[11px] text-slate-500 truncate">{APP_METADATA.SHORT_DESCRIPTION}</p>
           </div>
         )}
       </div>

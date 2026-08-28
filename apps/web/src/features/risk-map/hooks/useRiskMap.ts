@@ -36,7 +36,7 @@ export const useRiskMap = () => {
     const loadMapData = async () => {
       try {
         const [zonesRes, riskRes] = await Promise.all([
-          getZones({ page: 1, page_size: 100 }),
+          getZones({ is_ner: true, page: 1, page_size: 100 }),
           getRiskMatrix().catch(() => null),
         ]);
 

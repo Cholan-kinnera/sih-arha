@@ -127,7 +127,7 @@ export const RegionalRiskTrajectoryChart: React.FC<RegionalRiskTrajectoryChartPr
 
       {/* Analytical Interpretation Note */}
       <div className="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-[6px] border border-slate-200/80 leading-relaxed font-sans">
-        <strong className="text-slate-700">Analytical Interpretation:</strong> Regional average hazard crossed the 0.60 warning threshold at T-24h due to sustained monsoon inflow. Peak catchment vulnerability in Meppadi North reached critical threshold (0.84) at T-12h.
+        <strong className="text-slate-700">Analytical Interpretation:</strong> Regional average hazard crossed the 0.60 warning threshold at T-24h due to sustained monsoon inflow across the Eastern Himalayas. Peak catchment vulnerability in East Sikkim reached critical threshold (0.84) at T-12h.
       </div>
     </Card>
   );

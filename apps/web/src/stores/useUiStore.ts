@@ -22,7 +22,7 @@ export const useUiStore = create<UiState>((set) => ({
   selectedZoneId: null,
   zoneDrawerOpen: false,
   alertDrawerOpen: false,
-  activeRegion: 'Wayanad Basin — Western Ghats Sector',
+  activeRegion: 'North-Eastern Region (NER) Operational Grid',
 
   toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
   setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),

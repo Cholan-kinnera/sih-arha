@@ -26,7 +26,7 @@ export const useOverview = () => {
     const loadOverviewData = async () => {
       try {
         const [zonesRes, riskRes, alertsRes, sourcesRes] = await Promise.all([
-          getZones({ page: 1, page_size: 50 }),
+          getZones({ is_ner: true, page: 1, page_size: 100 }),
           getRiskMatrix().catch(() => null),
           getAlerts({ page: 1, page_size: 10 }).catch(() => null),
           getDataSources().catch(() => null),
@@ -119,7 +119,7 @@ export const useOverview = () => {
           criticalAlertsCount: criticalCount,
           unacknowledgedAlertsCount: unacknowledgedCount,
           peakRainfall24h: 184.2,
-          peakRainfallZoneName: 'Meppadi Sector 4',
+          peakRainfallZoneName: 'East Sikkim Sector (Gangtok Catchment)',
         };
 
         const overviewPayload: OverviewDashboardData = {

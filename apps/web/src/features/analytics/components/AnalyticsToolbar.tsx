@@ -55,10 +55,10 @@ export const AnalyticsToolbar: React.FC<AnalyticsToolbarProps> = ({
             aria-label="Filter by Drainage Catchment Basin"
             className="bg-slate-50 border border-slate-200 rounded-[6px] px-2 py-1 text-xs text-slate-800 focus:outline-none focus:border-indigo-600 cursor-pointer font-sans"
           >
-            <option value="ALL">All Catchment Basins</option>
-            <option value="Chaliyar">Chaliyar Upper Catchment</option>
-            <option value="Iruvanjippuza">Iruvanjippuza Watershed</option>
-            <option value="Kabini">Kabini Tributaries</option>
+            <option value="ALL">All NER Drainage Basins</option>
+            <option value="Teesta">Teesta River Basin (Sikkim / North Bengal)</option>
+            <option value="Brahmaputra">Brahmaputra Valley & Tributaries</option>
+            <option value="Barak">Barak / Surma River Basin</option>
           </select>
         </div>
 
@@ -78,7 +78,7 @@ export const AnalyticsToolbar: React.FC<AnalyticsToolbarProps> = ({
       {/* Right: Active Scope Context */}
       <div className="flex items-center gap-1.5 text-slate-500 text-[11px] font-mono-data">
         <Compass className="w-3.5 h-3.5 text-indigo-600" />
-        <span>Wayanad Disaster Intelligence Scope · SIMULATED</span>
+        <span>North-Eastern Region Hazard Scope · SIMULATED</span>
       </div>
     </div>
   );

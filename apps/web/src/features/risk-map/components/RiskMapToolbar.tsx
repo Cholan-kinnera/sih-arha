@@ -92,7 +92,7 @@ export const RiskMapToolbar: React.FC<RiskMapToolbarProps> = ({
       <div className="flex items-center gap-3 shrink-0">
         <div className="flex items-center gap-1.5 text-slate-600 font-medium">
           <Map className="w-3.5 h-3.5 text-blue-600" />
-          <span>Wayanad Catchment Sector</span>
+          <span>North-Eastern Region (NER) Sector</span>
         </div>
         <span className="h-3 w-[1px] bg-slate-200" />
         <div className="text-[11px] font-mono-data text-slate-500">

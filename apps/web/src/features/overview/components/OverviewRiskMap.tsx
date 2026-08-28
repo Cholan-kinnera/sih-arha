@@ -13,8 +13,8 @@ export interface OverviewRiskMapProps {
   onViewZoneDetails?: (zoneId: string) => void;
 }
 
-const DEFAULT_CENTER: [number, number] = [11.55, 76.12];
-const DEFAULT_ZOOM = 11;
+const DEFAULT_CENTER: [number, number] = [26.15, 93.00];
+const DEFAULT_ZOOM = 7;
 
 // Helper component for map control buttons
 const MapController: React.FC<{
@@ -136,7 +136,7 @@ export const OverviewRiskMap: React.FC<OverviewRiskMapProps> = ({
       {/* Floating Spatial Badge: Basin Sector & Status */}
       <div className="absolute top-3 right-3 z-10 hidden sm:flex items-center gap-2 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-[6px] border border-slate-200 shadow-2xs text-xs font-semibold text-slate-700">
         <Layers className="w-3.5 h-3.5 text-blue-600" />
-        <span>Wayanad Basin Sector</span>
+        <span>North-Eastern Region (NER) Grid</span>
         <span className="h-3 w-[1px] bg-slate-200" />
         <span className="text-[11px] font-mono-data text-slate-500 font-normal">
           {zones.length} Sectors Active

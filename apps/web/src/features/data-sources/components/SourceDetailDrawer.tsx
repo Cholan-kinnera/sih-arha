@@ -238,7 +238,7 @@ export const SourceDetailDrawer: React.FC<SourceDetailDrawerProps> = ({
             <Clock className="w-3 h-3 text-slate-400" />
             Last Sync: {source.lastUpdatedRelative}
           </span>
-          <span>LEWS Data Pipeline v2.4</span>
+          <span>ARHA SENTINEL Data Pipeline v2.4</span>
         </div>
       </motion.div>
     </AnimatePresence>

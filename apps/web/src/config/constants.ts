@@ -11,10 +11,11 @@ import {
 import type { NavigationGroupType } from '../types/ui.types';
 
 export const APP_METADATA = {
-  NAME: 'LEWS',
-  FULL_NAME: 'Landslide Early Warning & Risk Monitoring',
-  TAGLINE: 'AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas',
-  DEFAULT_REGION: 'Wayanad Basin — Western Ghats Sector',
+  NAME: 'ARHA SENTINEL',
+  FULL_NAME: 'Intelligent Landslide Risk & Early Warning System',
+  SHORT_DESCRIPTION: 'Landslide Risk Intelligence',
+  TAGLINE: 'Intelligent Landslide Risk & Early Warning System',
+  DEFAULT_REGION: 'North-Eastern Region (NER) Operational Grid',
   VERSION: '0.1.0-alpha',
 } as const;
 

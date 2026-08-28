@@ -24,7 +24,7 @@ export const FeatureWeightsCard: React.FC<FeatureWeightsCardProps> = ({ features
               Physical Feature Weights & Contribution Distribution
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
-              Calibrated multi-factor weights derived from Western Ghats geomorphology literature.
+              Calibrated multi-factor weights derived from Himalayan & North-Eastern Region geomorphology literature.
             </p>
           </div>
         </div>
