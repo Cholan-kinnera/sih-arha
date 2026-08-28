@@ -17,6 +17,37 @@ import {
   DATA_HEALTH_METRICS,
   RECENT_INGESTION_EVENTS,
 } from '../data/data-sources.demo';
+import { formatRelativeTime } from '../../../lib/date-utils';
+
+const mapBackendCategory = (cat: string | null | undefined): SourceCategory => {
+  switch (cat?.toUpperCase()) {
+    case 'CLIMATOLOGY':
+    case 'PRECIPITATION':
+      return 'Meteorological Telemetry';
+    case 'GEOLOGICAL':
+      return 'Historical Inventory';
+    case 'TERRAIN':
+      return 'Terrain & Elevation';
+    default:
+      return 'Meteorological Telemetry';
+  }
+};
+
+const mapBackendProvenance = (prov: string | null | undefined): DataSourceType => {
+  switch (prov?.toUpperCase()) {
+    case 'HISTORICAL':
+      return 'HISTORICAL';
+    case 'SIMULATED':
+      return 'SIMULATED';
+    case 'DERIVED':
+      return 'DERIVED';
+    case 'REAL_WORLD':
+    case 'REAL-WORLD':
+      return 'REAL-WORLD';
+    default:
+      return 'DERIVED';
+  }
+};
 
 const INITIAL_FILTERS: DataSourceFilterState = {
   searchQuery: '',
@@ -46,15 +77,15 @@ export const useDataSources = () => {
           id: s.source_id,
           name: s.name,
           provider: s.provider,
-          category: (s.category as SourceCategory) || 'Meteorological Telemetry',
+          category: mapBackendCategory(s.category),
           dataDomain: s.category || 'Environmental Telemetry',
           description: `${s.name} provided by ${s.provider}. Cadence: ${s.cadence || 'Automated'}.`,
           status: (s.status as SourceStatus) || 'CONNECTED',
           freshness: (s.freshness as any) || 'FRESH',
-          provenance: (s.provenance as DataSourceType) || 'REAL-WORLD',
+          provenance: mapBackendProvenance(s.provenance),
           expectedInterval: s.cadence || '1 Hour',
           lastUpdated: s.last_ingested_at || new Date().toISOString(),
-          lastUpdatedRelative: 'Just now',
+          lastUpdatedRelative: formatRelativeTime(s.last_ingested_at),
           recordCount: s.record_count,
           spatialCoverage: 'North-Eastern Region (NER) & All-India Baseline',
           spatialResolution: 'District & Catchment Basin Level',

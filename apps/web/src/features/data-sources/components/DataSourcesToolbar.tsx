@@ -102,7 +102,7 @@ export const DataSourcesToolbar: React.FC<DataSourcesToolbarProps> = ({
             <option value="SIMULATED">Simulated</option>
             <option value="DERIVED">Derived</option>
             <option value="HISTORICAL">Historical</option>
-            <option value="REAL_WORLD">Real-World</option>
+            <option value="REAL-WORLD">Real-World</option>
           </select>
         </div>
 

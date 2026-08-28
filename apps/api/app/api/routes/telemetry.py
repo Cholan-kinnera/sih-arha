@@ -38,6 +38,17 @@ async def ingest_telemetry(
             detail=f"Invalid provenance '{request.provenance}'. Must be one of {allowed_provenance}",
         )
 
+    if request.measurement_type == "rainfall_rate_mm_h" and request.value < 0.0:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="Measurement value for 'rainfall_rate_mm_h' cannot be negative.",
+        )
+    if request.measurement_type == "soil_moisture_pct" and not (0.0 <= request.value <= 100.0):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="Measurement value for 'soil_moisture_pct' must be between 0.0 and 100.0.",
+        )
+
     return await ingest_telemetry_reading(db=db, request=request)
 
 
