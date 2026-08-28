@@ -1,126 +1,192 @@
 <div align="center">
 
-# 🏔️ AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas
+# 🏔️ LandslideGuard
 
-**An intelligent, explainable, real-time hazard monitoring platform for vulnerable mountainous terrain.**
+### AI-Powered Early Warning & Risk Monitoring for Landslide-Prone Terrain
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Status](https://img.shields.io/badge/Status-Phase_0_Foundation-amber?style=flat-square)](docs/DEVELOPMENT_ROADMAP.md)
-[![License](https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square)](LICENSE)
+**Explainable. Real-time. Built to save lives before the ground moves.**
 
-[Problem](#-problem-statement) • [Solution](#-proposed-solution) • [Architecture](#-high-level-system-architecture) • [Quickstart](#-quickstart) • [Roadmap](#-current-project-status--roadmap)
+<br/>
+
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![React 19](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+
+[![Made for Communities](https://img.shields.io/badge/Made_for-Vulnerable_Communities-red?style=flat-square)](#)
+[![Explainable AI](https://img.shields.io/badge/AI-Explainable_by_Design-blueviolet?style=flat-square)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+
+<br/>
+
+**[✨ Features](#-what-it-does)** · **[🏗️ Architecture](#️-system-architecture)** · **[🧰 Tech Stack](#-technology-stack)** · **[🚀 Get Started](#-quickstart)** · **[🔬 The Science](#-the-science-behind-the-score)**
 
 </div>
 
----
-
-## 📋 Table of Contents
-
-- [Problem Statement](#-problem-statement)
-- [Proposed Solution](#-proposed-solution)
-- [High-Level System Architecture](#-high-level-system-architecture)
-- [Technology Stack](#-technology-stack)
-- [Repository Structure](#-repository-structure)
-- [Data & Machine Learning Strategy](#-data--machine-learning-strategy)
-- [Quickstart](#-quickstart)
-- [Project Status & Roadmap](#-current-project-status--roadmap)
-- [Contributing](#-contributing)
-- [License](#-license)
+<br/>
 
 ---
 
-## 🎯 Problem Statement
+<br/>
 
-Landslides pose an escalating threat to communities living in vulnerable terrain such as the Western Ghats and the Himalayas. Triggered by intense monsoon downpours, high pore-water pressure, and slope instability, landslides often strike with minimal warning.
+## 🌩️ The Problem
 
-Key gaps in existing disaster response systems:
+> Landslides pose an escalating threat to communities across the **Western Ghats** and the **Himalayas**. Triggered by intense monsoon downpours, rising pore-water pressure, and slope instability, they strike with almost no warning — and existing systems aren't built to catch them in time.
 
-| Challenge | Impact |
-| :--- | :--- |
-| 🐢 **Delayed Warning Dissemination** | Regional alerts lack the spatial granularity to warn specific slopes or settlements in time |
-| ⬛ **Black-Box Scoring** | Operators and local authorities can't interpret *why* a slope is flagged as hazardous |
-| 🔌 **Disjointed Sensor Telemetry** | No integrated real-time stream combining antecedent rainfall, DEM, and soil moisture |
-| 🧪 **No Scenario Modeling** | Emergency teams can't stress-test alert thresholds before an extreme cloudburst hits |
+<table>
+<tr>
+<td width="25%" align="center">🐢<br/><b>Too Slow</b><br/><sub>Regional alerts lack the spatial resolution to warn a specific slope in time</sub></td>
+<td width="25%" align="center">⬛<br/><b>Too Opaque</b><br/><sub>Operators can't see *why* a hazard score was triggered</sub></td>
+<td width="25%" align="center">🔌<br/><b>Too Fragmented</b><br/><sub>Rainfall, DEM, and soil telemetry live in disconnected silos</sub></td>
+<td width="25%" align="center">🧪<br/><b>Too Untested</b><br/><sub>No way to simulate a cloudburst before one actually hits</sub></td>
+</tr>
+</table>
 
----
+<br/>
 
-## 💡 Proposed Solution
+## ✨ What It Does
 
-An end-to-end early warning and risk monitoring pipeline, built around five principles: **explainability, low latency, spatial precision, operator control, and human-in-the-loop AI.**
+<table>
+<tr>
+<td width="50%" valign="top">
 
-| | Capability | Description |
-| :-- | :--- | :--- |
-| 🛰️ | **Geospatial Hazard Zoning** | High-resolution mapping of monitored sectors with terrain slope, elevation, and geological classification |
-| 🌧️ | **Dynamic Risk Engine** | Hydro-geological threshold evaluation combining 24h/72h Antecedent Rainfall Index (ARI), soil moisture saturation, and slope gradient |
-| 🔍 | **Explainable AI/ML Scoring** | Transparent decomposition of hazard scores into explicit contributing-factor percentages — no black boxes |
-| ⚡ | **Realtime Telemetry & WebSockets** | Zero-latency streaming from remote IoT sensors and scenario simulators straight to the operator dashboard |
-| 🚨 | **Automated Alert Dispatch** | Multi-tier alert hierarchy (`LOW` → `MODERATE` → `HIGH` → `CRITICAL`) with operator acknowledgment workflows |
-| 🧪 | **Environmental Scenario Simulator** | Configurable engine to model monsoon downpours, cloudbursts, and other disaster scenarios |
-| 🤖 | **Advisory AI Assistance** | Natural-language situation reports and multi-lingual emergency advisories via Google Gemini — strictly advisory, never load-bearing for risk scores |
+### 🛰️ Geospatial Hazard Zoning
+High-resolution mapping of monitored sectors — terrain slope, elevation, and geological classification, rendered as an interactive live map.
 
----
+</td>
+<td width="50%" valign="top">
 
-## 🏗️ High-Level System Architecture
+### 🌧️ Dynamic Risk Engine
+Hydro-geological threshold evaluation combining 24h/72h Antecedent Rainfall Index (ARI), soil moisture saturation, and slope gradient.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🔍 Explainable AI/ML Scoring
+Every hazard score decomposes into transparent, percentage-weighted contributing factors. No black boxes, no unexplainable red flags.
+
+</td>
+<td width="50%" valign="top">
+
+### ⚡ Realtime Telemetry & WebSockets
+Zero-latency streaming from IoT sensors and scenario simulators straight into the operator dashboard.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🚨 Automated Alert Dispatch
+Multi-tier hierarchy — `LOW` → `MODERATE` → `HIGH` → `CRITICAL` — with full operator acknowledgment workflows.
+
+</td>
+<td width="50%" valign="top">
+
+### 🧪 Environmental Scenario Simulator
+Configurable engine to stress-test thresholds against monsoon downpours and cloudburst scenarios before they happen for real.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top">
+
+### 🤖 Advisory AI Assistance
+Natural-language situation reports and multi-lingual emergency advisories powered by **Google Gemini** — strictly advisory, never used to compute a risk score.
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+## 🏗️ System Architecture
 
 ```text
                   ┌──────────────────────────────────────┐
-                  │            External Data              │
-                  │   GSI · IMD · DEM · Soil · Weather    │
+                  │              External Data             │
+                  │      GSI · IMD · DEM · Soil · Weather  │
                   └──────────────────┬───────────────────┘
                                      │
                                      ▼
                   ┌──────────────────────────────────────┐
-                  │     Data Processing & Features         │
-                  │  Temporal aggregation, slope calc,     │
-                  │  soil saturation & rainfall index      │
+                  │       Data Processing & Features        │
+                  │   Temporal aggregation · slope calc ·   │
+                  │   soil saturation · rainfall index      │
                   └──────────────────┬───────────────────┘
                                      │
                                      ▼
                   ┌──────────────────────────────────────┐
-                  │          Risk Engine / ML              │
-                  │  Explainable heuristic risk score       │
-                  │  + optional ML classifier/regressor    │
+                  │            Risk Engine / ML             │
+                  │   Explainable heuristic risk score       │
+                  │   + optional ML classifier/regressor     │
                   └──────────────────┬───────────────────┘
                                      │
                                      ▼
                   ┌──────────────────────────────────────┐
-                  │           FastAPI Backend               │
-                  │   REST API + WebSocket Broadcast        │
-                  │   Alert Engine + Session Management    │
+                  │             FastAPI Backend              │
+                  │    REST API + WebSocket Broadcast        │
+                  │    Alert Engine + Session Management     │
                   └──────────────────┬───────────────────┘
                                      │
                 ┌────────────────────┴────────────────────┐
                 ▼                                          ▼
-       ┌─────────────────────────────────┐       ┌─────────────────────────────────┐
-       │         React Dashboard          │       │          SQLite Database        │
-       │  • Interactive Hazard Map        │       │  • Zones & Geometries           │
-       │  • Realtime Risk Gauge           │       │  • Sensor & Weather Readings    │
-       │  • Alert Feed & Timeline         │       │  • Risk Calculation History     │
-       │  • Trend & Rainfall Analytics    │       │  • Generated Alerts             │
-       │  • Explainability / Insights     │       │  • Model Metadata               │
-       └─────────────────────────────────┘       └─────────────────────────────────┘
+       ┌──────────────────────────────┐        ┌──────────────────────────────┐
+       │        React Dashboard         │        │        SQLite Database        │
+       │  🗺️  Interactive Hazard Map    │        │  📍 Zones & Geometries        │
+       │  📊  Realtime Risk Gauge       │        │  📡 Sensor & Weather Readings │
+       │  🚨  Alert Feed & Timeline     │        │  📈 Risk Calculation History  │
+       │  📉  Trend & Rainfall Charts   │        │  🔔 Generated Alerts          │
+       │  🧠  Explainability Panel      │        │  🗃️ Model Metadata            │
+       └──────────────────────────────┘        └──────────────────────────────┘
 ```
 
-📄 Full technical specs: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/PROJECT_BLUEPRINT.md`](docs/PROJECT_BLUEPRINT.md)
+<div align="center"><sub>📄 Deep dives: <a href="docs/ARCHITECTURE.md"><code>docs/ARCHITECTURE.md</code></a> · <a href="docs/PROJECT_BLUEPRINT.md"><code>docs/PROJECT_BLUEPRINT.md</code></a></sub></div>
 
----
+<br/>
 
 ## 🧰 Technology Stack
 
-| Layer | Technologies | Purpose |
-| :--- | :--- | :--- |
-| **Frontend** | React 19, Vite, TypeScript, Tailwind CSS, Leaflet, Recharts, Lucide | High-performance geospatial situational dashboard |
-| **Backend** | Python 3.10+, FastAPI, Uvicorn, Pydantic v2, SQLAlchemy (Async) | High-throughput REST & WebSocket orchestration engine |
-| **Database** | SQLite (via `aiosqlite` / SQLAlchemy Async) | Lightweight, zero-config local time-series and spatial store |
-| **Analytics & ML** | NumPy, Pandas, Scikit-learn, XGBoost | Hydro-geological heuristics & susceptibility models |
-| **Simulation** | Python Async Event Engine | Synthetic rainfall and IoT environmental telemetry stream |
-| **AI / LLM** | Google Gemini API (Interactions / Python SDK) | Natural-language operator summaries and advisories |
+<div align="center">
 
----
+| Layer | Stack |
+| :--- | :--- |
+| 🎨 **Frontend** | React 19 · Vite · TypeScript · Tailwind CSS · Leaflet · Recharts · Lucide |
+| ⚙️ **Backend** | Python 3.10+ · FastAPI · Uvicorn · Pydantic v2 · SQLAlchemy (Async) |
+| 🗄️ **Database** | SQLite via `aiosqlite` / SQLAlchemy Async |
+| 📊 **Analytics & ML** | NumPy · Pandas · Scikit-learn · XGBoost |
+| 🧪 **Simulation** | Python Async Event Engine |
+| 🤖 **AI / LLM** | Google Gemini API (Interactions / Python SDK) |
+
+</div>
+
+<br/>
+
+## 🔬 The Science Behind the Score
+
+<table>
+<tr><td>
+
+**1. Data Provenance**
+Grounded in authoritative public datasets — Geological Survey of India (GSI) landslide inventories, India Meteorological Department (IMD) rainfall records, and SRTM/Copernicus Digital Elevation Models.
+
+**2. Deterministic Risk Baseline**
+A physics-informed, hydro-geological heuristic engine — Caine-style precipitation intensity-duration thresholds and slope instability models — guarantees explainability and verifiable safety thresholds.
+
+**3. Statistical ML Refinement**
+Supervised classifiers (Random Forest / XGBoost) trained on historical landslide occurrence points provide probabilistic susceptibility scoring on top of the deterministic baseline.
+
+**4. The AI Boundary**
+Google Gemini is used **solely** as an advisory assistant for operator briefings and multi-lingual public advisories. It is **never** used to compute a primary risk score — every number on the dashboard traces back to a physical model you can audit.
+
+</td></tr>
+</table>
+
+<div align="center"><sub>📄 Contract definitions: <a href="docs/DATA_CONTRACT.md"><code>docs/DATA_CONTRACT.md</code></a></sub></div>
+
+<br/>
 
 ## 📁 Repository Structure
 
@@ -145,63 +211,39 @@ An end-to-end early warning and risk monitoring pipeline, built around five prin
 │   └── metadata/          # Data catalogs and source provenance records
 │
 ├── docs/                 # Architecture, blueprints, roadmaps, and data contracts
-│   ├── ARCHITECTURE.md
-│   ├── PROJECT_BLUEPRINT.md
-│   ├── DEVELOPMENT_ROADMAP.md
-│   ├── DATA_CONTRACT.md
-│   └── ENVIRONMENT.md
+├── tests/                 # Backend, frontend, ML, and integration test suites
+├── scripts/               # Setup, seeding, simulation, and data utility scripts
 │
-├── tests/
-│   ├── backend/          # FastAPI backend unit & integration tests
-│   ├── frontend/          # React dashboard UI component tests
-│   ├── ml/                # Risk engine calculation & ML tests
-│   └── integration/       # End-to-end pipeline & WebSocket stream tests
-│
-├── scripts/              # Setup, seeding, simulation, and data utility scripts
-│
-├── .env.example           # Sanitized environment template
-├── .gitignore              # Git ignore rules for secrets, DBs, and large data
-└── README.md               # Master repository overview
+├── .env.example
+└── README.md
 ```
 
----
-
-## 🔬 Data & Machine Learning Strategy
-
-1. **Data Provenance** — Grounded in authoritative public datasets: Geological Survey of India (GSI) landslide inventories, India Meteorological Department (IMD) rainfall records, and SRTM/Copernicus Digital Elevation Models.
-2. **Deterministic Risk Baseline** — A physics-informed, hydro-geological heuristic engine (Caine-style precipitation intensity-duration thresholds and slope instability models) guarantees explainability and verifiable safety thresholds.
-3. **Statistical ML Refinement** — Supervised classifiers (Random Forest / XGBoost) trained on historical landslide occurrence points provide probabilistic susceptibility scoring.
-4. **AI Boundary** — Google Gemini is used *solely* as an advisory assistant for operator briefings and multi-lingual public advisories. Gemini is **never** used to compute primary risk scores.
-
-📄 Contract definitions: [`docs/DATA_CONTRACT.md`](docs/DATA_CONTRACT.md)
-
----
+<br/>
 
 ## 🚀 Quickstart
 
-### Prerequisites
+<table>
+<tr><td>
 
-- Node.js 18+ and npm
-- Python 3.10+ and a virtual environment tool
+**Prerequisites:** Node.js 18+ & npm · Python 3.10+ & a virtual environment tool
 
-### 1. Configure environment
+</td></tr>
+</table>
 
 ```bash
+# 1. Configure environment
 cp .env.example .env
 ```
 
-### 2. Run the frontend (`apps/web`)
-
 ```bash
+# 2. Frontend — apps/web
 cd apps/web
 npm install
 npm run dev
 ```
 
-### 3. Run the backend (`apps/api`)
-
 ```bash
-# From the workspace root
+# 3. Backend — apps/api (from workspace root)
 python -m venv .venv
 source .venv/bin/activate
 pip install -e apps/api
@@ -209,46 +251,26 @@ pip install -e apps/api
 uvicorn apps.api.src.main:app --reload --port 8000
 ```
 
-The dashboard will be available locally once both services are running — see [`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md) for full configuration options.
+Once both are running, open the dashboard locally and watch live telemetry flow in. Full configuration options live in [`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md).
 
----
-
-## 🗺️ Current Project Status & Roadmap
-
-> **Phase 0 (Foundation Reset & Architecture Specification) is complete.** Core feature implementation proceeds sequentially per the roadmap below.
-
-| Phase | Description | Status |
-| :--- | :--- | :---: |
-| 0 | Repository Reset & Architecture Foundation | 🟢 Completed |
-| 1 | Frontend Foundation & Theme Layout | 🚧 In Development |
-| 2 | Backend Foundation & REST Schemas | 🚧 In Development |
-| 3 | Database Models & Zone Seeding (SQLite) | ⏳ Scheduled |
-| 4 | Data Ingestion & Feature Engineering | ⏳ Scheduled |
-| 5 | Explainable Heuristic Risk Engine | ⏳ Scheduled |
-| 6 | Environmental Scenario Simulator | ⏳ Scheduled |
-| 7 | Realtime WebSockets & Telemetry Hub | ⏳ Scheduled |
-| 8 | Dashboard & Map Integration | ⏳ Scheduled |
-| 9 | Statistical ML Model (Susceptibility) | ⏳ Scheduled |
-| 10 | Gemini Advisory & Explanation Layer | ⏳ Scheduled |
-| 11 | End-to-End Test Suite | ⏳ Scheduled |
-| 12 | Production Polish & Demo Hardening | ⏳ Scheduled |
-
-📄 Full milestones: [`docs/DEVELOPMENT_ROADMAP.md`](docs/DEVELOPMENT_ROADMAP.md)
-
----
+<br/>
 
 ## 🤝 Contributing
 
-Contributions are welcome, especially around the ML risk engine, geospatial preprocessing, and dashboard UX. Please open an issue to discuss significant changes before submitting a pull request, and make sure tests pass under `tests/` for any touched module.
+Contributions are welcome — especially around the ML risk engine, geospatial preprocessing, and dashboard UX. Open an issue to discuss significant changes before submitting a PR, and make sure tests under `tests/` pass for anything you touch.
 
 ## 📜 License
 
-This project is licensed under the MIT License — see the [`LICENSE`](LICENSE) file for details.
+Licensed under the [MIT License](LICENSE).
+
+<br/>
 
 ---
 
 <div align="center">
 
-*Built to give vulnerable communities the seconds and minutes that save lives.*
+### Built to give vulnerable communities the seconds and minutes that save lives. 🏔️
+
+<sub>If this project resonates with you, consider ⭐ starring the repo.</sub>
 
 </div>
