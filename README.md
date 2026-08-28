@@ -273,4 +273,22 @@ Licensed under the [MIT License](LICENSE).
 
 <sub>If this project resonates with you, consider ⭐ starring the repo.</sub>
 
+<<<<<<< HEAD
 </div>
+
+Detailed milestone specifications are documented in [docs/DEVELOPMENT_ROADMAP.md](docs/DEVELOPMENT_ROADMAP.md).
+
+### How SatQuery AI Works
+
+SatQuery AI is designed to provide an interactive interface for analyzing remote sensing data through natural language queries. The system follows a modular pipeline:
+
+1. **User Query** → The user submits a natural-language question.
+2. **Query Processing** → The backend interprets the request and identifies the required analysis.
+3. **Remote Sensing Analysis** → Relevant satellite data and derived features are processed.
+4. **Risk & Scenario Analysis** → Analytical and simulation modules generate insights.
+5. **AI Advisory** → The results are presented with explanations and recommendations.
+6. **Visualization** → Results can be explored through the web dashboard and map interface.
+
+This architecture allows the project to combine geospatial data processing, statistical analysis, machine learning, and generative AI into a single interactive platform.
+
+>>>>>>> db3cd8c (docs: add SatQuery AI workflow overview)
