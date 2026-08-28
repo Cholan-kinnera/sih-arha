@@ -1,0 +1,82 @@
+{
+  "landslide_incidence.csv": {
+    "filename": "landslide_incidence.csv",
+    "relative_path": "data/raw/landslides/landslide_incidence.csv",
+    "file_type": ".csv",
+    "size_bytes": 34220,
+    "row_count": 63,
+    "column_count": 3,
+    "columns": [
+      "Unnamed: 0",
+      "Title",
+      "LandslideIncidence"
+    ],
+    "provenance": "HISTORICAL_REPORTS",
+    "intended_use": "Baseline Landslide Ground-Truth Target Label",
+    "status": "ACCEPTED"
+  },
+  "rainfall_district.csv": {
+    "filename": "rainfall_district.csv",
+    "relative_path": "data/raw/rainfall_district.csv",
+    "file_type": ".csv",
+    "size_bytes": 69275,
+    "row_count": 641,
+    "column_count": 19,
+    "columns": [
+      "STATE_UT_NAME",
+      "DISTRICT",
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+      "ANNUAL",
+      "Jan-Feb",
+      "Mar-May",
+      "Jun-Sep",
+      "Oct-Dec"
+    ],
+    "provenance": "CLIMATOLOGICAL_NORMALS",
+    "intended_use": "District-Level Baseline Exposure & Seasonality Features",
+    "status": "ACCEPTED"
+  },
+  "rainfall_subdivision.csv": {
+    "filename": "rainfall_subdivision.csv",
+    "relative_path": "data/raw/rainfall_subdivision.csv",
+    "file_type": ".csv",
+    "size_bytes": 528115,
+    "row_count": 4116,
+    "column_count": 19,
+    "columns": [
+      "SUBDIVISION",
+      "YEAR",
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+      "ANNUAL",
+      "Jan-Feb",
+      "Mar-May",
+      "Jun-Sep",
+      "Oct-Dec"
+    ],
+    "provenance": "HISTORICAL_TIME_SERIES",
+    "intended_use": "Subdivision Climatological Baseline & Variance Features",
+    "status": "ACCEPTED"
+  }
+}

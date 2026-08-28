@@ -9,5 +9,21 @@ description = "AI-Based Early Warning & Risk Monitoring for Landslide-Prone Area
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "pydantic>=2.0.0"
+    "pydantic>=2.0.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "scikit-learn>=1.3.0",
+    "pyarrow>=14.0.0",
+    "joblib>=1.3.0",
+    "scipy>=1.10.0",
+    "rasterio>=1.3.0",
+    "shapely>=2.0.0"
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = [
+    "ignore::DeprecationWarning:joblib.*"
 ]

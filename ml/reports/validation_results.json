@@ -1,0 +1,440 @@
+{
+  "Logistic Regression (L2, Balanced)": {
+    "mean_metrics": {
+      "pr_auc": 0.2077,
+      "roc_auc": 0.357,
+      "precision": 0.0616,
+      "recall": 0.3125,
+      "f1": 0.1013,
+      "balanced_accuracy": 0.3491,
+      "brier_score": 0.4819
+    },
+    "std_metrics": {
+      "pr_auc": 0.0712,
+      "roc_auc": 0.1751,
+      "precision": 0.0766,
+      "recall": 0.3248,
+      "f1": 0.1225,
+      "balanced_accuracy": 0.0571,
+      "brier_score": 0.2019
+    },
+    "oof_metrics": {
+      "roc_auc": 0.2704,
+      "pr_auc": 0.1505,
+      "precision": 0.0851,
+      "recall": 0.2667,
+      "f1": 0.129,
+      "balanced_accuracy": 0.3347,
+      "brier_score": 0.4601,
+      "true_positives": 4,
+      "false_positives": 43,
+      "true_negatives": 29,
+      "false_negatives": 11,
+      "positive_rate": 0.1724,
+      "threshold_used": 0.5
+    },
+    "fold_metrics": [
+      {
+        "roc_auc": 0.53,
+        "pr_auc": 0.1083,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "balanced_accuracy": 0.28,
+        "brier_score": 0.2622,
+        "true_positives": 0,
+        "false_positives": 11,
+        "true_negatives": 14,
+        "false_negatives": 2,
+        "positive_rate": 0.0741,
+        "threshold_used": 0.5,
+        "fold": 1,
+        "validation_states": [
+          "ASSAM"
+        ],
+        "train_samples": 60,
+        "val_samples": 27,
+        "val_positives": 2
+      },
+      {
+        "roc_auc": 0.5278,
+        "pr_auc": 0.3056,
+        "precision": 0.0588,
+        "recall": 0.5,
+        "f1": 0.1053,
+        "balanced_accuracy": 0.3056,
+        "brier_score": 0.7896,
+        "true_positives": 1,
+        "false_positives": 16,
+        "true_negatives": 2,
+        "false_negatives": 1,
+        "positive_rate": 0.1,
+        "threshold_used": 0.5,
+        "fold": 2,
+        "validation_states": [
+          "ARUNACHAL PRADESH",
+          "TRIPURA"
+        ],
+        "train_samples": 67,
+        "val_samples": 20,
+        "val_positives": 2
+      },
+      {
+        "roc_auc": 0.1381,
+        "pr_auc": 0.229,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "balanced_accuracy": 0.4,
+        "brier_score": 0.348,
+        "true_positives": 0,
+        "false_positives": 3,
+        "true_negatives": 12,
+        "false_negatives": 7,
+        "positive_rate": 0.3182,
+        "threshold_used": 0.5,
+        "fold": 3,
+        "validation_states": [
+          "MEGHALAYA",
+          "NAGALAND",
+          "SIKKIM"
+        ],
+        "train_samples": 65,
+        "val_samples": 22,
+        "val_positives": 7
+      },
+      {
+        "roc_auc": 0.2321,
+        "pr_auc": 0.1881,
+        "precision": 0.1875,
+        "recall": 0.75,
+        "f1": 0.3,
+        "balanced_accuracy": 0.4107,
+        "brier_score": 0.5278,
+        "true_positives": 3,
+        "false_positives": 13,
+        "true_negatives": 1,
+        "false_negatives": 1,
+        "positive_rate": 0.2222,
+        "threshold_used": 0.5,
+        "fold": 4,
+        "validation_states": [
+          "MANIPUR",
+          "MIZORAM"
+        ],
+        "train_samples": 69,
+        "val_samples": 18,
+        "val_positives": 4
+      }
+    ],
+    "cv_info": {
+      "strategy": "GroupKFold",
+      "group_variable": "state",
+      "n_splits": 4,
+      "unique_groups_count": 8,
+      "unique_groups": [
+        "ARUNACHAL PRADESH",
+        "ASSAM",
+        "MANIPUR",
+        "MEGHALAYA",
+        "MIZORAM",
+        "NAGALAND",
+        "SIKKIM",
+        "TRIPURA"
+      ],
+      "description": "Spatial GroupKFold ensures districts from the same state never leak between train and validation."
+    }
+  },
+  "Random Forest (Balanced, Depth=4)": {
+    "mean_metrics": {
+      "pr_auc": 0.2049,
+      "roc_auc": 0.4165,
+      "precision": 0.1692,
+      "recall": 0.3839,
+      "f1": 0.1956,
+      "balanced_accuracy": 0.4665,
+      "brier_score": 0.2747
+    },
+    "std_metrics": {
+      "pr_auc": 0.0691,
+      "roc_auc": 0.1241,
+      "precision": 0.1511,
+      "recall": 0.2759,
+      "f1": 0.1374,
+      "balanced_accuracy": 0.0468,
+      "brier_score": 0.0818
+    },
+    "oof_metrics": {
+      "roc_auc": 0.4106,
+      "pr_auc": 0.1565,
+      "precision": 0.1714,
+      "recall": 0.4,
+      "f1": 0.24,
+      "balanced_accuracy": 0.4986,
+      "brier_score": 0.2622,
+      "true_positives": 6,
+      "false_positives": 29,
+      "true_negatives": 43,
+      "false_negatives": 9,
+      "positive_rate": 0.1724,
+      "threshold_used": 0.5
+    },
+    "fold_metrics": [
+      {
+        "roc_auc": 0.61,
+        "pr_auc": 0.1556,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "balanced_accuracy": 0.46,
+        "brier_score": 0.1418,
+        "true_positives": 0,
+        "false_positives": 2,
+        "true_negatives": 23,
+        "false_negatives": 2,
+        "positive_rate": 0.0741,
+        "threshold_used": 0.5,
+        "fold": 1,
+        "validation_states": [
+          "ASSAM"
+        ],
+        "train_samples": 60,
+        "val_samples": 27,
+        "val_positives": 2
+      },
+      {
+        "roc_auc": 0.4167,
+        "pr_auc": 0.1526,
+        "precision": 0.0769,
+        "recall": 0.5,
+        "f1": 0.1333,
+        "balanced_accuracy": 0.4167,
+        "brier_score": 0.3127,
+        "true_positives": 1,
+        "false_positives": 12,
+        "true_negatives": 6,
+        "false_negatives": 1,
+        "positive_rate": 0.1,
+        "threshold_used": 0.5,
+        "fold": 2,
+        "validation_states": [
+          "ARUNACHAL PRADESH",
+          "TRIPURA"
+        ],
+        "train_samples": 67,
+        "val_samples": 20,
+        "val_positives": 2
+      },
+      {
+        "roc_auc": 0.3714,
+        "pr_auc": 0.3219,
+        "precision": 0.4,
+        "recall": 0.2857,
+        "f1": 0.3333,
+        "balanced_accuracy": 0.5429,
+        "brier_score": 0.2827,
+        "true_positives": 2,
+        "false_positives": 3,
+        "true_negatives": 12,
+        "false_negatives": 5,
+        "positive_rate": 0.3182,
+        "threshold_used": 0.5,
+        "fold": 3,
+        "validation_states": [
+          "MEGHALAYA",
+          "NAGALAND",
+          "SIKKIM"
+        ],
+        "train_samples": 65,
+        "val_samples": 22,
+        "val_positives": 7
+      },
+      {
+        "roc_auc": 0.2679,
+        "pr_auc": 0.1893,
+        "precision": 0.2,
+        "recall": 0.75,
+        "f1": 0.3158,
+        "balanced_accuracy": 0.4464,
+        "brier_score": 0.3617,
+        "true_positives": 3,
+        "false_positives": 12,
+        "true_negatives": 2,
+        "false_negatives": 1,
+        "positive_rate": 0.2222,
+        "threshold_used": 0.5,
+        "fold": 4,
+        "validation_states": [
+          "MANIPUR",
+          "MIZORAM"
+        ],
+        "train_samples": 69,
+        "val_samples": 18,
+        "val_positives": 4
+      }
+    ],
+    "cv_info": {
+      "strategy": "GroupKFold",
+      "group_variable": "state",
+      "n_splits": 4,
+      "unique_groups_count": 8,
+      "unique_groups": [
+        "ARUNACHAL PRADESH",
+        "ASSAM",
+        "MANIPUR",
+        "MEGHALAYA",
+        "MIZORAM",
+        "NAGALAND",
+        "SIKKIM",
+        "TRIPURA"
+      ],
+      "description": "Spatial GroupKFold ensures districts from the same state never leak between train and validation."
+    }
+  },
+  "HistGradientBoosting (Balanced)": {
+    "mean_metrics": {
+      "pr_auc": 0.3523,
+      "roc_auc": 0.5654,
+      "precision": 0.375,
+      "recall": 0.1964,
+      "f1": 0.2576,
+      "balanced_accuracy": 0.5565,
+      "brier_score": 0.1919
+    },
+    "std_metrics": {
+      "pr_auc": 0.1991,
+      "roc_auc": 0.207,
+      "precision": 0.4146,
+      "recall": 0.2105,
+      "f1": 0.279,
+      "balanced_accuracy": 0.128,
+      "brier_score": 0.0871
+    },
+    "oof_metrics": {
+      "roc_auc": 0.4958,
+      "pr_auc": 0.2438,
+      "precision": 0.3,
+      "recall": 0.2,
+      "f1": 0.24,
+      "balanced_accuracy": 0.5514,
+      "brier_score": 0.1924,
+      "true_positives": 3,
+      "false_positives": 7,
+      "true_negatives": 65,
+      "false_negatives": 12,
+      "positive_rate": 0.1724,
+      "threshold_used": 0.5
+    },
+    "fold_metrics": [
+      {
+        "roc_auc": 0.61,
+        "pr_auc": 0.1339,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "balanced_accuracy": 0.4,
+        "brier_score": 0.1787,
+        "true_positives": 0,
+        "false_positives": 5,
+        "true_negatives": 20,
+        "false_negatives": 2,
+        "positive_rate": 0.0741,
+        "threshold_used": 0.5,
+        "fold": 1,
+        "validation_states": [
+          "ASSAM"
+        ],
+        "train_samples": 60,
+        "val_samples": 27,
+        "val_positives": 2
+      },
+      {
+        "roc_auc": 0.8611,
+        "pr_auc": 0.6429,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6667,
+        "balanced_accuracy": 0.75,
+        "brier_score": 0.0598,
+        "true_positives": 1,
+        "false_positives": 0,
+        "true_negatives": 18,
+        "false_negatives": 1,
+        "positive_rate": 0.1,
+        "threshold_used": 0.5,
+        "fold": 2,
+        "validation_states": [
+          "ARUNACHAL PRADESH",
+          "TRIPURA"
+        ],
+        "train_samples": 67,
+        "val_samples": 20,
+        "val_positives": 2
+      },
+      {
+        "roc_auc": 0.5048,
+        "pr_auc": 0.4254,
+        "precision": 0.5,
+        "recall": 0.2857,
+        "f1": 0.3636,
+        "balanced_accuracy": 0.5762,
+        "brier_score": 0.2971,
+        "true_positives": 2,
+        "false_positives": 2,
+        "true_negatives": 13,
+        "false_negatives": 5,
+        "positive_rate": 0.3182,
+        "threshold_used": 0.5,
+        "fold": 3,
+        "validation_states": [
+          "MEGHALAYA",
+          "NAGALAND",
+          "SIKKIM"
+        ],
+        "train_samples": 65,
+        "val_samples": 22,
+        "val_positives": 7
+      },
+      {
+        "roc_auc": 0.2857,
+        "pr_auc": 0.207,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "balanced_accuracy": 0.5,
+        "brier_score": 0.2322,
+        "true_positives": 0,
+        "false_positives": 0,
+        "true_negatives": 14,
+        "false_negatives": 4,
+        "positive_rate": 0.2222,
+        "threshold_used": 0.5,
+        "fold": 4,
+        "validation_states": [
+          "MANIPUR",
+          "MIZORAM"
+        ],
+        "train_samples": 69,
+        "val_samples": 18,
+        "val_positives": 4
+      }
+    ],
+    "cv_info": {
+      "strategy": "GroupKFold",
+      "group_variable": "state",
+      "n_splits": 4,
+      "unique_groups_count": 8,
+      "unique_groups": [
+        "ARUNACHAL PRADESH",
+        "ASSAM",
+        "MANIPUR",
+        "MEGHALAYA",
+        "MIZORAM",
+        "NAGALAND",
+        "SIKKIM",
+        "TRIPURA"
+      ],
+      "description": "Spatial GroupKFold ensures districts from the same state never leak between train and validation."
+    }
+  }
+}
