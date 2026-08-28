@@ -35,19 +35,19 @@ export const OverviewPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 pb-6">
-      {/* 1. Page Header */}
+    <div className="space-y-4 pb-4">
+      {/* 1. Page Header (Compressed Height) */}
       <OverviewHeader
         regionalSeverity={data.kpis.regionalSeverity}
         regionalRiskScore={data.kpis.regionalRiskScore}
         lastUpdatedTimestamp={data.lastUpdatedTimestamp}
       />
 
-      {/* 2. Key Operational Metrics (KPI Row) */}
+      {/* 2. Key Operational Metrics (Unified KPI Strip) */}
       <OverviewMetrics kpis={data.kpis} />
 
       {/* 3. Primary Operational Workspace (Map + Active Alerts) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Risk Map Preview (65% on desktop: 8 cols) */}
         <div className="lg:col-span-8">
           <OverviewRiskMap
@@ -67,8 +67,8 @@ export const OverviewPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. Secondary Analytical Workspace (Trend + Top Risk Catchments) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* 4. Secondary Analytical Workspace (Trend + Top Priority Catchments) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* 72h Precipitation-Driven Risk Trend (6 cols) */}
         <div className="lg:col-span-6">
           <RiskTrendCard data={data.riskTrend} />
@@ -83,11 +83,12 @@ export const OverviewPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 5. Bottom System, Stream & Provenance Status Bar */}
+      {/* 5. Telemetry Snapshot & Operational System Status Bar */}
       <OverviewSystemStatus
         lastUpdatedTimestamp={data.lastUpdatedTimestamp}
         activeNodesCount={data.activeTelemetryNodesCount}
         totalDataSourcesCount={data.totalDataSourcesCount}
+        telemetry={data.environmentalTelemetry}
       />
     </div>
   );

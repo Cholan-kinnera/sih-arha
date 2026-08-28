@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapContainer, TileLayer, Polygon, Tooltip as LeafletTooltip, useMap } from 'react-leaflet';
-import { RotateCcw, Plus, Minus, Layers } from 'lucide-react';
+import { RotateCcw, Plus, Minus, Layers, Radio } from 'lucide-react';
 import { IconButton } from '../../../components/ui/IconButton';
 import { SEVERITY_CONFIGS } from '../../../lib/risk-semantics';
 import { CompactZoneDrawer } from './CompactZoneDrawer';
@@ -23,22 +23,22 @@ const MapController: React.FC<{
   const map = useMap();
 
   return (
-    <div className="absolute top-4 left-4 z-20 flex flex-col gap-1.5 bg-white/95 backdrop-blur-md p-1 rounded-[6px] border border-slate-200 shadow-sm">
+    <div className="absolute top-3 left-3 z-20 flex flex-col gap-1 bg-white/95 backdrop-blur-md p-1 rounded-[6px] border border-slate-200 shadow-xs">
       <IconButton
         aria-label="Zoom In"
         size="sm"
         onClick={() => map.zoomIn()}
-        className="w-8 h-8 text-slate-700 hover:text-slate-900"
+        className="w-7 h-7 text-slate-700 hover:text-slate-900"
       >
-        <Plus className="w-4 h-4" />
+        <Plus className="w-3.5 h-3.5" />
       </IconButton>
       <IconButton
         aria-label="Zoom Out"
         size="sm"
         onClick={() => map.zoomOut()}
-        className="w-8 h-8 text-slate-700 hover:text-slate-900"
+        className="w-7 h-7 text-slate-700 hover:text-slate-900"
       >
-        <Minus className="w-4 h-4" />
+        <Minus className="w-3.5 h-3.5" />
       </IconButton>
       <div className="h-[1px] bg-slate-200 my-0.5" />
       <IconButton
@@ -48,9 +48,9 @@ const MapController: React.FC<{
           map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
           onReset();
         }}
-        className="w-8 h-8 text-slate-700 hover:text-slate-900"
+        className="w-7 h-7 text-slate-700 hover:text-slate-900"
       >
-        <RotateCcw className="w-3.5 h-3.5" />
+        <RotateCcw className="w-3 h-3" />
       </IconButton>
     </div>
   );
@@ -71,7 +71,7 @@ export const OverviewRiskMap: React.FC<OverviewRiskMapProps> = ({
         color: '#2563eb',
         weight: 3.5,
         fillColor: config.colorHex,
-        fillOpacity: 0.65,
+        fillOpacity: 0.70,
       };
     }
 
@@ -79,12 +79,12 @@ export const OverviewRiskMap: React.FC<OverviewRiskMapProps> = ({
       color: config.colorHex,
       weight: severity === 'CRITICAL' ? 2.5 : 1.5,
       fillColor: config.colorHex,
-      fillOpacity: severity === 'CRITICAL' ? 0.55 : severity === 'HIGH' ? 0.45 : 0.35,
+      fillOpacity: severity === 'CRITICAL' ? 0.60 : severity === 'HIGH' ? 0.50 : 0.38,
     };
   };
 
   return (
-    <div className="relative w-full h-[460px] lg:h-[520px] rounded-[8px] overflow-hidden border border-slate-200 bg-slate-100 shadow-sm">
+    <div className="relative w-full h-[380px] lg:h-[420px] rounded-[8px] overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs">
       <MapContainer
         center={DEFAULT_CENTER}
         zoom={DEFAULT_ZOOM}
@@ -92,10 +92,10 @@ export const OverviewRiskMap: React.FC<OverviewRiskMapProps> = ({
         zoomControl={false}
         className="w-full h-full"
       >
-        {/* CartoDB Positron Clean Basemap */}
+        {/* OpenStreetMap / Carto Light Basemap without API key requirement watermark */}
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           maxZoom={18}
         />
 
@@ -104,7 +104,6 @@ export const OverviewRiskMap: React.FC<OverviewRiskMapProps> = ({
         {/* Monitored Catchment Polygons */}
         {zones.map((zone) => {
           const isSelected = selectedZone?.id === zone.id;
-          // Leaflet expects [lat, lng], while GeoJSON stores [lng, lat]
           const positions = zone.geometry.coordinates[0]?.map(
             ([lng, lat]) => [lat, lng] as [number, number]
           ) ?? [];
@@ -134,31 +133,41 @@ export const OverviewRiskMap: React.FC<OverviewRiskMapProps> = ({
         })}
       </MapContainer>
 
-      {/* Floating Spatial Badge: Basin Sector */}
-      <div className="absolute top-4 right-4 z-10 hidden sm:flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-[6px] border border-slate-200 shadow-xs text-xs font-semibold text-slate-700">
+      {/* Floating Spatial Badge: Basin Sector & Status */}
+      <div className="absolute top-3 right-3 z-10 hidden sm:flex items-center gap-2 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-[6px] border border-slate-200 shadow-2xs text-xs font-semibold text-slate-700">
         <Layers className="w-3.5 h-3.5 text-blue-600" />
         <span>Wayanad Basin Sector</span>
+        <span className="h-3 w-[1px] bg-slate-200" />
+        <span className="text-[11px] font-mono-data text-slate-500 font-normal">
+          {zones.length} Sectors Active
+        </span>
       </div>
 
-      {/* Floating Spatial Legend */}
-      <div className="absolute bottom-4 left-4 z-10 bg-white/95 backdrop-blur-md px-3 py-2 rounded-[6px] border border-slate-200 shadow-sm flex items-center gap-3 text-xs select-none">
+      {/* Floating Spatial Legend (Bottom Left) */}
+      <div className="absolute bottom-3 left-3 z-10 bg-white/95 backdrop-blur-md px-2.5 py-1.5 rounded-[6px] border border-slate-200 shadow-2xs flex items-center gap-3 text-xs select-none">
         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Legend</span>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
           <span className="text-slate-700 font-medium text-[11px]">Low</span>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
           <span className="text-slate-700 font-medium text-[11px]">Mod</span>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
           <span className="text-slate-700 font-medium text-[11px]">High</span>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           <span className="w-2.5 h-2.5 rounded-full bg-red-600" />
           <span className="text-slate-700 font-medium text-[11px]">Critical</span>
         </div>
+      </div>
+
+      {/* Floating Spatial Attribution & Freshness (Bottom Right) */}
+      <div className="absolute bottom-3 right-3 z-10 hidden md:flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2 py-1 rounded-[6px] border border-slate-200 shadow-2xs text-[10px] font-mono-data text-slate-500">
+        <Radio className="w-3 h-3 text-emerald-600 animate-pulse" />
+        <span>GSI Terrain Mesh v2.4</span>
       </div>
 
       {/* Slide-over Compact Inspector Drawer when a Zone is selected */}

@@ -12,6 +12,12 @@ export const OVERVIEW_DEMO_DATA: OverviewDashboardData = {
     peakRainfallZoneName: 'Zone 01 (Meppadi Catchment North)',
   },
   provenance: 'SIMULATED',
+  environmentalTelemetry: {
+    rain24h: 184.2,
+    rain72h: 310.5,
+    maxSoilMoisturePercentage: 84.1,
+    maxSlopeDegrees: 41.0,
+  },
   activeTelemetryNodesCount: 24,
   totalDataSourcesCount: 4,
   lastUpdatedTimestamp: new Date().toISOString(),

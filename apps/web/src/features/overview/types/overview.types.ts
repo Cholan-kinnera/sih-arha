@@ -20,11 +20,19 @@ export interface RiskTrendDataPoint {
   thresholdCritical: number;
 }
 
+export interface EnvironmentalTelemetryData {
+  rain24h: number;
+  rain72h: number;
+  maxSoilMoisturePercentage: number;
+  maxSlopeDegrees: number;
+}
+
 export interface OverviewDashboardData {
   kpis: OverviewKpiData;
   zones: Zone[];
   alerts: Alert[];
   riskTrend: RiskTrendDataPoint[];
+  environmentalTelemetry: EnvironmentalTelemetryData;
   lastUpdatedTimestamp: string;
   provenance: 'SIMULATED';
   activeTelemetryNodesCount: number;

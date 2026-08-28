@@ -15,25 +15,30 @@ export const OverviewHeader: React.FC<OverviewHeaderProps> = ({
   lastUpdatedTimestamp,
 }) => {
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
       <div>
-        <div className="text-[11px] font-bold tracking-wider text-blue-600 uppercase mb-0.5 select-none">
+        <div className="text-[10px] font-bold tracking-widest text-blue-600 uppercase select-none">
           Situation Awareness
         </div>
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-          Landslide Risk Overview
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-0.5 max-w-2xl">
-          Continuous geospatial risk intelligence, terrain susceptibility, and real-time hazard triage across monitored sectors.
+        <div className="flex items-baseline gap-3">
+          <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+            Landslide Risk Overview
+          </h1>
+          <p className="hidden md:inline-block text-xs text-slate-500">
+            Current geospatial risk intelligence across monitored zones.
+          </p>
+        </div>
+        <p className="md:hidden text-xs text-slate-500 mt-0.5">
+          Current geospatial risk intelligence across monitored zones.
         </p>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-[6px] border border-slate-200 shadow-xs">
-          <span className="text-xs font-medium text-slate-500">Regional Severity:</span>
+      <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-2 bg-white px-2.5 py-1 rounded-[6px] border border-slate-200 shadow-2xs">
+          <span className="text-[11px] font-semibold text-slate-500">Regional Severity:</span>
           <RiskSeverityBadge severity={regionalSeverity} score={regionalRiskScore} />
         </div>
-        <div className="hidden sm:flex items-center bg-white px-3 py-1.5 rounded-[6px] border border-slate-200 shadow-xs">
+        <div className="hidden sm:flex items-center bg-white px-2.5 py-1 rounded-[6px] border border-slate-200 shadow-2xs text-[11px]">
           <DataFreshness lastUpdated={lastUpdatedTimestamp} />
         </div>
       </div>
