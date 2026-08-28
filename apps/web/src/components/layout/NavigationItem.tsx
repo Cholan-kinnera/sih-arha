@@ -25,9 +25,9 @@ export const NavigationItem: React.FC<NavigationItemProps> = ({
             to={item.href}
             aria-label={item.label}
             className={cn(
-              'w-10 h-10 rounded-[6px] flex items-center justify-center transition-colors select-none group',
+              'w-10 h-10 rounded-[6px] flex items-center justify-center transition-colors select-none group focus-visible:outline-2 focus-visible:outline-blue-600 focus-visible:outline-offset-2',
               isActive
-                ? 'bg-blue-50 text-blue-600 border border-blue-200 shadow-xs'
+                ? 'bg-blue-50 text-blue-600 border border-blue-200 shadow-2xs'
                 : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
             )}
           >
@@ -47,7 +47,7 @@ export const NavigationItem: React.FC<NavigationItemProps> = ({
     <Link
       to={item.href}
       className={cn(
-        'flex items-center h-10 w-full px-3 rounded-[6px] text-sm font-medium transition-colors select-none group',
+        'flex items-center h-10 w-full px-3 rounded-[6px] text-sm font-medium transition-colors select-none group focus-visible:outline-2 focus-visible:outline-blue-600 focus-visible:outline-offset-2',
         isActive
           ? 'bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600'
           : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100',

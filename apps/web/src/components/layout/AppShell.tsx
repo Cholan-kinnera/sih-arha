@@ -1,9 +1,13 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Sidebar } from './Sidebar';
 import { TopHeader } from './TopHeader';
+import { pageTransitionVariants } from '../../lib/motion';
 
 export const AppShell: React.FC = () => {
+  const location = useLocation();
+
   return (
     <div className="min-h-screen bg-[#f8fafc] text-[#0f172a] flex flex-col font-sans">
       {/* Top Fixed Operational Header */}
@@ -16,7 +20,17 @@ export const AppShell: React.FC = () => {
         {/* Dynamic Route Workspace */}
         <main className="flex-1 min-w-0 bg-[#f8fafc] overflow-y-auto">
           <div className="p-4 sm:p-6 max-w-[1600px] mx-auto w-full">
-            <Outlet />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={location.pathname}
+                variants={pageTransitionVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
+                <Outlet />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </main>
       </div>
