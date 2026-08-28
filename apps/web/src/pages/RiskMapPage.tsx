@@ -1,25 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Map, Layers, Radio, ShieldCheck } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { RiskSeverityBadge } from '../components/risk/RiskSeverityBadge';
 import { DataFreshness } from '../components/layout/DataFreshness';
 import { OVERVIEW_DEMO_DATA } from '../features/overview/data/overview.demo';
-import { OverviewRiskMap } from '../features/overview/components/OverviewRiskMap';
-import { useUiStore } from '../stores/useUiStore';
-import type { Zone } from '../types/domain.types';
+import { useRiskMap } from '../features/risk-map/hooks/useRiskMap';
+import { RiskMapToolbar } from '../features/risk-map/components/RiskMapToolbar';
+import { RiskMapContainer } from '../features/risk-map/components/RiskMapContainer';
+import { ZoneDetailDrawer } from '../features/risk-map/components/ZoneDetailDrawer';
+import { RiskMapSkeleton } from '../features/risk-map/components/RiskMapSkeleton';
 
 export const RiskMapPage: React.FC = () => {
-  const { openZoneDrawer } = useUiStore();
-  const [selectedZone, setSelectedZone] = React.useState<Zone | null>(null);
+  const {
+    layers,
+    selectedZone,
+    filters,
+    filteredZones,
+    allZonesCount,
+    toggleLayer,
+    selectZone,
+    setSearchQuery,
+    setSelectedSeverity,
+    setMinSlopeDegrees,
+    resetFilters,
+  } = useRiskMap();
+
+  const [isLoading] = useState(false);
   const data = OVERVIEW_DEMO_DATA;
 
-  const handleSelectZone = (zone: Zone | null) => {
-    setSelectedZone(zone);
-  };
-
-  const handleViewZoneDetails = (zoneId: string) => {
-    openZoneDrawer(zoneId);
-  };
+  if (isLoading) {
+    return <RiskMapSkeleton />;
+  }
 
   return (
     <div className="space-y-4 pb-4">
@@ -31,10 +42,10 @@ export const RiskMapPage: React.FC = () => {
           </div>
           <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
             <Map className="w-5 h-5 text-blue-600" />
-            Interactive Risk Map Console
+            Geospatial Hazard Risk Map Workspace
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            Geospatial hazard zoning, terrain susceptibility polygons, and real-time catchment monitoring.
+            Geospatial hazard zoning, terrain susceptibility polygons, IMD precipitation mesh, and real-time catchment monitoring.
           </p>
         </div>
         <div className="flex items-center gap-2.5 shrink-0">
@@ -48,24 +59,46 @@ export const RiskMapPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Full-Width Map Canvas */}
-      <OverviewRiskMap
-        zones={data.zones}
-        selectedZone={selectedZone}
-        onSelectZone={handleSelectZone}
-        onViewZoneDetails={handleViewZoneDetails}
+      {/* Spatial Toolbar (Search & Filters) */}
+      <RiskMapToolbar
+        searchQuery={filters.searchQuery}
+        onSearchChange={setSearchQuery}
+        selectedSeverity={filters.selectedSeverity}
+        onSeverityChange={setSelectedSeverity}
+        minSlope={filters.minSlopeDegrees}
+        onMinSlopeChange={setMinSlopeDegrees}
+        visibleCount={filteredZones.length}
+        totalCount={allZonesCount}
+        onResetFilters={resetFilters}
       />
+
+      {/* Main Full-Viewport Leaflet Map Container */}
+      <RiskMapContainer
+        zones={filteredZones}
+        selectedZone={selectedZone}
+        onSelectZone={selectZone}
+        layers={layers}
+        onToggleLayer={toggleLayer}
+      />
+
+      {/* Reusable Comprehensive Zone Intelligence Inspector Drawer */}
+      <ZoneDetailDrawer zone={selectedZone} onClose={() => selectZone(null)} />
 
       {/* Operational Context Bar */}
       <Card className="p-3 bg-white border-slate-200 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2 text-slate-700">
           <Layers className="w-4 h-4 text-blue-600 shrink-0" />
           <span className="font-semibold">Active Layers:</span>
-          <span className="text-slate-500">Wayanad Catchment Mesh (24 Sectors), Hydro-geological Polygons, GSI Susceptibility Index</span>
+          <span className="text-slate-500">
+            {layers.hazardZones && 'Hazard Polygons (24 Sectors), '}
+            {layers.rainfallMesh && 'IMD 24h Rain Mesh, '}
+            {layers.historicalScars && 'GSI Scars (3 Points), '}
+            {layers.sensorStations && '5 Sensor Stations'}
+          </span>
         </div>
         <div className="flex items-center gap-2 text-slate-500 font-mono-data text-[11px]">
           <Radio className="w-3.5 h-3.5 text-emerald-600 animate-pulse shrink-0" />
-          <span>Realtime Stream Active</span>
+          <span>Realtime Telemetry Active</span>
           <span className="h-3 w-[1px] bg-slate-200" />
           <ShieldCheck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
           <span>Validated Dataset</span>
