@@ -2,9 +2,9 @@
 
 # AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas
 
-> **Document Type**: Master UX & Interaction Design Authority  
-> **Status**: Approved Baseline Specification  
-> **Hierarchical Authority**: [docs/PRODUCT_CONSTITUTION.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_CONSTITUTION.md) $\rightarrow$ [docs/PRODUCT_REQUIREMENTS.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_REQUIREMENTS.md) $\rightarrow$ `docs/UX_SPECIFICATION.md`  
+> **Document Type**: Master UX & Interaction Design Authority
+> **Status**: Approved Baseline Specification
+> **Hierarchical Authority**: [docs/PRODUCT_CONSTITUTION.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_CONSTITUTION.md) $\rightarrow$ [docs/PRODUCT_REQUIREMENTS.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_REQUIREMENTS.md) $\rightarrow$ `docs/UX_SPECIFICATION.md`
 > **Target Audience**: UI/UX Designers, Frontend Developers, Product Managers, QA Engineers, Hackathon Evaluators
 
 ---

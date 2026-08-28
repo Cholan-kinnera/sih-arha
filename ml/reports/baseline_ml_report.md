@@ -1,6 +1,6 @@
 # LEWS — District-Level Historical Landslide Susceptibility ML Baseline Report
 
-> **Model Version**: `lews-susceptibility-baseline-v1.0.0` | **Training Date**: `2026-08-28T15:26:49.813627+00:00`
+> **Model Version**: `lews-susceptibility-baseline-v1.0.0` | **Training Date**: `2026-08-28T17:26:21.943746+00:00`
 
 ## 1. Executive Summary & Scientific Boundary
 

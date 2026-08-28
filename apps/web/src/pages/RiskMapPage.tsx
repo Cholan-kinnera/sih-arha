@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Map, Layers, Radio, ShieldCheck } from 'lucide-react';
+import React from 'react';
+import { Map, Layers, Radio, ShieldCheck, AlertTriangle, RefreshCw } from 'lucide-react';
 import { Card } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
 import { RiskSeverityBadge } from '../components/risk/RiskSeverityBadge';
 import { DataFreshness } from '../components/layout/DataFreshness';
-import { OVERVIEW_DEMO_DATA } from '../features/overview/data/overview.demo';
 import { useRiskMap } from '../features/risk-map/hooks/useRiskMap';
 import { RiskMapToolbar } from '../features/risk-map/components/RiskMapToolbar';
 import { RiskMapContainer } from '../features/risk-map/components/RiskMapContainer';
@@ -17,6 +17,10 @@ export const RiskMapPage: React.FC = () => {
     filters,
     filteredZones,
     allZonesCount,
+    isLoading,
+    error,
+    isBackendUnavailable,
+    refetch,
     toggleLayer,
     selectZone,
     setSearchQuery,
@@ -25,15 +29,48 @@ export const RiskMapPage: React.FC = () => {
     resetFilters,
   } = useRiskMap();
 
-  const [isLoading] = useState(false);
-  const data = OVERVIEW_DEMO_DATA;
-
-  if (isLoading) {
+  if (isLoading && filteredZones.length === 0) {
     return <RiskMapSkeleton />;
+  }
+
+  // Determine top basin severity from visible zones
+  let regionalSeverity: any = 'LOW';
+  let regionalRiskScore = 0.15;
+  if (filteredZones.some((z) => z.current_severity === 'CRITICAL')) {
+    regionalSeverity = 'CRITICAL';
+    regionalRiskScore = 0.88;
+  } else if (filteredZones.some((z) => z.current_severity === 'HIGH')) {
+    regionalSeverity = 'HIGH';
+    regionalRiskScore = 0.72;
+  } else if (filteredZones.some((z) => z.current_severity === 'MODERATE')) {
+    regionalSeverity = 'MODERATE';
+    regionalRiskScore = 0.45;
   }
 
   return (
     <div className="space-y-4 pb-4">
+      {/* Backend / Network Alert Banner if degraded */}
+      {isBackendUnavailable && (
+        <div className="bg-amber-50 border border-amber-200 rounded-[6px] p-3 flex items-center justify-between gap-3 text-xs text-amber-900 shadow-2xs">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+            <div>
+              <span className="font-bold">Backend Connectivity Degraded:</span>{' '}
+              {error || 'Unable to connect to live API. Showing cached geospatial polygons.'}
+            </div>
+          </div>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() => refetch()}
+            className="shrink-0 flex items-center gap-1"
+          >
+            <RefreshCw className="w-3 h-3" />
+            <span>Retry Connection</span>
+          </Button>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
         <div>
@@ -51,10 +88,10 @@ export const RiskMapPage: React.FC = () => {
         <div className="flex items-center gap-2.5 shrink-0">
           <div className="flex items-center gap-2 bg-white px-2.5 py-1 rounded-[6px] border border-slate-200 shadow-2xs">
             <span className="text-[11px] font-semibold text-slate-500">Basin Severity:</span>
-            <RiskSeverityBadge severity={data.kpis.regionalSeverity} score={data.kpis.regionalRiskScore} />
+            <RiskSeverityBadge severity={regionalSeverity} score={regionalRiskScore} />
           </div>
           <div className="hidden sm:flex items-center bg-white px-2.5 py-1 rounded-[6px] border border-slate-200 shadow-2xs text-[11px]">
-            <DataFreshness lastUpdated={data.lastUpdatedTimestamp} />
+            <DataFreshness lastUpdated={new Date().toISOString()} />
           </div>
         </div>
       </div>
@@ -90,10 +127,10 @@ export const RiskMapPage: React.FC = () => {
           <Layers className="w-4 h-4 text-blue-600 shrink-0" />
           <span className="font-semibold">Active Layers:</span>
           <span className="text-slate-500">
-            {layers.hazardZones && 'Hazard Polygons (24 Sectors), '}
+            {layers.hazardZones && `Hazard Polygons (${filteredZones.length} Sectors), `}
             {layers.rainfallMesh && 'IMD 24h Rain Mesh, '}
-            {layers.historicalScars && 'GSI Scars (3 Points), '}
-            {layers.sensorStations && '5 Sensor Stations'}
+            {layers.historicalScars && 'GSI Scars, '}
+            {layers.sensorStations && 'Sensor Network'}
           </span>
         </div>
         <div className="flex items-center gap-2 text-slate-500 font-mono-data text-[11px]">

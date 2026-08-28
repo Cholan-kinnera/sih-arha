@@ -2,8 +2,8 @@
 
 # AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas
 
-> **Document Type**: Technical Frontend Architecture Document  
-> **Status**: Approved Baseline Architecture  
+> **Document Type**: Technical Frontend Architecture Document
+> **Status**: Approved Baseline Architecture
 > **Hierarchical Authority**: [docs/PRODUCT_CONSTITUTION.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_CONSTITUTION.md) $\rightarrow$ [docs/PRODUCT_REQUIREMENTS.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_REQUIREMENTS.md) $\rightarrow$ [docs/UX_SPECIFICATION.md](file:///home/cholan0415/Projects/sih-arha/docs/UX_SPECIFICATION.md) $\rightarrow$ [docs/UI_DESIGN_SYSTEM.md](file:///home/cholan0415/Projects/sih-arha/docs/UI_DESIGN_SYSTEM.md) $\rightarrow$ `docs/FRONTEND_ARCHITECTURE.md`
 
 ---

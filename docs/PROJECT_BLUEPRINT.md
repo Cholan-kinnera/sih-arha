@@ -2,7 +2,7 @@
 
 # AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas
 
-> **Document Status**: Master Architecture & Technical Specification  
+> **Document Status**: Master Architecture & Technical Specification
 > **Target Audience**: Core Engineering Team, Domain Researchers, Evaluators
 
 ---

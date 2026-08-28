@@ -2,9 +2,9 @@
 
 # AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas
 
-> **Document Type**: Master UI Design System & Visual Specification  
-> **Status**: Approved Baseline Specification (Revised for Light Enterprise Intelligence UI)  
-> **Hierarchical Authority**: [docs/PRODUCT_CONSTITUTION.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_CONSTITUTION.md) $\rightarrow$ [docs/PRODUCT_REQUIREMENTS.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_REQUIREMENTS.md) $\rightarrow$ [docs/UX_SPECIFICATION.md](file:///home/cholan0415/Projects/sih-arha/docs/UX_SPECIFICATION.md) $\rightarrow$ `docs/UI_DESIGN_SYSTEM.md`  
+> **Document Type**: Master UI Design System & Visual Specification
+> **Status**: Approved Baseline Specification (Revised for Light Enterprise Intelligence UI)
+> **Hierarchical Authority**: [docs/PRODUCT_CONSTITUTION.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_CONSTITUTION.md) $\rightarrow$ [docs/PRODUCT_REQUIREMENTS.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_REQUIREMENTS.md) $\rightarrow$ [docs/UX_SPECIFICATION.md](file:///home/cholan0415/Projects/sih-arha/docs/UX_SPECIFICATION.md) $\rightarrow$ `docs/UI_DESIGN_SYSTEM.md`
 > **Target Audience**: Frontend Engineers, UI/UX Designers, Design System Maintainers, Evaluators
 
 ---
@@ -70,9 +70,9 @@ Key visual pillars:
 ```
 
 > [!IMPORTANT]
-> **The Four-Factor Risk Representation Rule**:  
-> Risk is **NEVER** communicated through color alone. Every risk state must present:  
-> **1. Semantic Color** + **2. Lucide Icon** + **3. Severity Text** + **4. Exact Numerical Score**  
+> **The Four-Factor Risk Representation Rule**:
+> Risk is **NEVER** communicated through color alone. Every risk state must present:
+> **1. Semantic Color** + **2. Lucide Icon** + **3. Severity Text** + **4. Exact Numerical Score**
 > *(Example: Red Border + `TriangleAlert` Icon + `"CRITICAL"` + `"0.84"`)*.
 
 ---

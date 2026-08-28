@@ -2,9 +2,9 @@
 
 # AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas
 
-> **Document Type**: Detailed Implementation-Ready Product Requirements Specification  
-> **Status**: Approved Baseline Specification  
-> **Authoritative Foundation**: [docs/PRODUCT_CONSTITUTION.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_CONSTITUTION.md)  
+> **Document Type**: Detailed Implementation-Ready Product Requirements Specification
+> **Status**: Approved Baseline Specification
+> **Authoritative Foundation**: [docs/PRODUCT_CONSTITUTION.md](file:///home/cholan0415/Projects/sih-arha/docs/PRODUCT_CONSTITUTION.md)
 > **Target Audience**: Frontend Engineers, Backend Engineers, ML Engineers, Data Engineers, UI/UX Designers, QA, and Hackathon Evaluators
 
 ---
@@ -384,8 +384,8 @@ The Data Sources view maintains an open catalog of all external datasets and sen
 ```
 
 #### Generated Output (Gemini Response)
-> **Situation Summary**: Critical landslide risk detected in Meppadi Catchment North (Risk Index: 0.84). The primary trigger is extreme 72-hour antecedent rainfall (310.2 mm) acting on steep terrain (34.5° slope) with high soil moisture saturation (86.4%).  
-> **Key Hazard Driver**: 72-hour cumulative precipitation contributes 45% of total failure susceptibility.  
+> **Situation Summary**: Critical landslide risk detected in Meppadi Catchment North (Risk Index: 0.84). The primary trigger is extreme 72-hour antecedent rainfall (310.2 mm) acting on steep terrain (34.5° slope) with high soil moisture saturation (86.4%).
+> **Key Hazard Driver**: 72-hour cumulative precipitation contributes 45% of total failure susceptibility.
 > **Recommended Operator Action**: Alert local emergency response units, monitor downslope drainage culverts, and prepare precautionary evacuation notices for low-lying settlements in Sector 4.
 
 ---

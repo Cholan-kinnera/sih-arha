@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ShieldAlert, X, Check, FileText } from 'lucide-react';
+import { ShieldAlert, X, Check, FileText, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { IconButton } from '../../../components/ui/IconButton';
 import { RiskSeverityBadge } from '../../../components/risk/RiskSeverityBadge';
@@ -11,12 +11,16 @@ export interface AlertAcknowledgeModalProps {
   alert: AlertDetailed | null;
   onClose: () => void;
   onConfirm: (alertId: string, notes?: string) => void;
+  isSubmitting?: boolean;
+  error?: string | null;
 }
 
 export const AlertAcknowledgeModal: React.FC<AlertAcknowledgeModalProps> = ({
   alert,
   onClose,
   onConfirm,
+  isSubmitting = false,
+  error = null,
 }) => {
   const [dispatchNotes, setDispatchNotes] = useState('');
 
@@ -24,6 +28,7 @@ export const AlertAcknowledgeModal: React.FC<AlertAcknowledgeModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     onConfirm(alert.id, dispatchNotes.trim() || undefined);
   };
 
@@ -66,6 +71,7 @@ export const AlertAcknowledgeModal: React.FC<AlertAcknowledgeModalProps> = ({
               aria-label="Cancel Acknowledgment Dialog"
               onClick={onClose}
               size="sm"
+              disabled={isSubmitting}
               className="text-slate-400 hover:text-slate-700 shrink-0"
             >
               <X className="w-4 h-4" />
@@ -74,6 +80,14 @@ export const AlertAcknowledgeModal: React.FC<AlertAcknowledgeModalProps> = ({
 
           {/* Form Content */}
           <form onSubmit={handleSubmit} className="p-4 space-y-4">
+            {/* Error Banner if submit failed */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-[6px] p-2.5 flex items-center gap-2 text-xs text-red-800">
+                <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
+
             {/* Alert Summary Box */}
             <div className="p-3 bg-slate-50 rounded-[6px] border border-slate-200/80 space-y-2 text-xs">
               <div className="flex items-center justify-between">
@@ -100,9 +114,10 @@ export const AlertAcknowledgeModal: React.FC<AlertAcknowledgeModalProps> = ({
                 id="dispatch-notes"
                 rows={3}
                 value={dispatchNotes}
+                disabled={isSubmitting}
                 onChange={(e) => setDispatchNotes(e.target.value)}
                 placeholder="e.g. Field patrol alerted for drainage culvert monitoring. Advisory forwarded to local disaster management control room."
-                className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-[6px] text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-colors resize-none font-sans"
+                className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-[6px] text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-colors resize-none font-sans disabled:opacity-60"
               />
               <span className="text-[10px] text-slate-400 font-mono-data">
                 Logged under: Operator ID: OP-412 (Duty Officer)
@@ -115,6 +130,7 @@ export const AlertAcknowledgeModal: React.FC<AlertAcknowledgeModalProps> = ({
                 type="button"
                 variant="secondary"
                 size="sm"
+                disabled={isSubmitting}
                 onClick={onClose}
               >
                 Cancel
@@ -123,9 +139,10 @@ export const AlertAcknowledgeModal: React.FC<AlertAcknowledgeModalProps> = ({
                 type="submit"
                 variant="danger"
                 size="sm"
-                leftIcon={<Check className="w-3.5 h-3.5" />}
+                disabled={isSubmitting}
+                leftIcon={isSubmitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
               >
-                Confirm Acknowledgment & Log Audit
+                {isSubmitting ? 'Recording Acknowledgment...' : 'Confirm Acknowledgment & Log Audit'}
               </Button>
             </div>
           </form>

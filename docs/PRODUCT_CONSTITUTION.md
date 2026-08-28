@@ -2,8 +2,8 @@
 
 # AI-Based Early Warning & Risk Monitoring for Landslide-Prone Areas
 
-> **Document Type**: Permanent Product Constitution & Foundational Charter  
-> **Status**: Approved Foundation Baseline  
+> **Document Type**: Permanent Product Constitution & Foundational Charter
+> **Status**: Approved Foundation Baseline
 > **Applicability**: Engineering (Frontend, Backend, ML, Data, DevOps), Product Design, Domain Advisory, Evaluation
 
 ---

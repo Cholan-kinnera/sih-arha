@@ -14,6 +14,13 @@ from src.risk.types import DataFreshnessStatus, RainfallAccumulation, TelemetryP
 logger = logging.getLogger(__name__)
 
 
+def ensure_utc(dt: datetime) -> datetime:
+    """Ensure a datetime is timezone-aware UTC."""
+    if dt.tzinfo is None:
+        return dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
 def compute_rainfall_factor(accumulation: RainfallAccumulation) -> float:
     """Compute normalized dynamic rainfall factor [0.0 - 1.0].
 
@@ -52,12 +59,13 @@ class RainfallAccumulator:
                 freshness=DataFreshnessStatus.MISSING,
             )
 
-        now = as_of_time or datetime.now(timezone.utc)
-        sorted_readings = sorted(readings, key=lambda r: r.timestamp_utc)
+        now = ensure_utc(as_of_time) if as_of_time else datetime.now(timezone.utc)
+        sorted_readings = sorted(readings, key=lambda r: ensure_utc(r.timestamp_utc))
         latest_reading = sorted_readings[-1]
+        latest_ts = ensure_utc(latest_reading.timestamp_utc)
 
         # Calculate time delta for freshness
-        age_hours = (now - latest_reading.timestamp_utc).total_seconds() / 3600.0
+        age_hours = (now - latest_ts).total_seconds() / 3600.0
         is_simulated = any(r.provenance == TelemetryProvenance.SIMULATED for r in readings)
 
         if is_simulated:
@@ -71,11 +79,11 @@ class RainfallAccumulator:
             provenance = latest_reading.provenance
 
         # Accumulation calculations
-        acc_1h = sum(r.rainfall_rate_mm_h for r in readings if (now - r.timestamp_utc).total_seconds() <= 3600)
-        acc_6h = sum(r.rainfall_rate_mm_h for r in readings if (now - r.timestamp_utc).total_seconds() <= 6 * 3600)
-        acc_24h = sum(r.rainfall_rate_mm_h for r in readings if (now - r.timestamp_utc).total_seconds() <= 24 * 3600)
-        acc_48h = sum(r.rainfall_rate_mm_h for r in readings if (now - r.timestamp_utc).total_seconds() <= 48 * 3600)
-        acc_72h = sum(r.rainfall_rate_mm_h for r in readings if (now - r.timestamp_utc).total_seconds() <= 72 * 3600)
+        acc_1h = sum(r.rainfall_rate_mm_h for r in readings if (now - ensure_utc(r.timestamp_utc)).total_seconds() <= 3600)
+        acc_6h = sum(r.rainfall_rate_mm_h for r in readings if (now - ensure_utc(r.timestamp_utc)).total_seconds() <= 6 * 3600)
+        acc_24h = sum(r.rainfall_rate_mm_h for r in readings if (now - ensure_utc(r.timestamp_utc)).total_seconds() <= 24 * 3600)
+        acc_48h = sum(r.rainfall_rate_mm_h for r in readings if (now - ensure_utc(r.timestamp_utc)).total_seconds() <= 48 * 3600)
+        acc_72h = sum(r.rainfall_rate_mm_h for r in readings if (now - ensure_utc(r.timestamp_utc)).total_seconds() <= 72 * 3600)
 
         return RainfallAccumulation(
             rainfall_1h_mm=round(float(acc_1h), 2),

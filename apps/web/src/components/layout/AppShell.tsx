@@ -4,9 +4,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Sidebar } from './Sidebar';
 import { TopHeader } from './TopHeader';
 import { pageTransitionVariants } from '../../lib/motion';
+import { useTelemetryStream } from '../../hooks/useTelemetryStream';
 
 export const AppShell: React.FC = () => {
   const location = useLocation();
+
+  // Mount global WebSocket telemetry stream at app root
+  useTelemetryStream();
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-[#0f172a] flex flex-col font-sans">

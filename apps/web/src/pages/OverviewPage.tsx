@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { OVERVIEW_DEMO_DATA } from '../features/overview/data/overview.demo';
+import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { useOverview } from '../features/overview/hooks/useOverview';
 import { OverviewHeader } from '../features/overview/components/OverviewHeader';
 import { OverviewMetrics } from '../features/overview/components/OverviewMetrics';
 import { OverviewRiskMap } from '../features/overview/components/OverviewRiskMap';
@@ -8,6 +9,8 @@ import { OverviewAlerts } from '../features/overview/components/OverviewAlerts';
 import { RiskTrendCard } from '../features/overview/components/RiskTrendCard';
 import { TopRiskZones } from '../features/overview/components/TopRiskZones';
 import { OverviewSystemStatus } from '../features/overview/components/OverviewSystemStatus';
+import { ZoneDetailDrawer } from '../features/risk-map/components/ZoneDetailDrawer';
+import { Button } from '../components/ui/Button';
 import { useUiStore } from '../stores/useUiStore';
 import type { Zone } from '../types/domain.types';
 
@@ -16,14 +19,14 @@ export const OverviewPage: React.FC = () => {
   const { openZoneDrawer } = useUiStore();
   const [selectedZone, setSelectedZone] = useState<Zone | null>(null);
 
-  const data = OVERVIEW_DEMO_DATA;
+  const { data, error, isBackendUnavailable, refetch } = useOverview();
 
   const handleSelectZone = (zone: Zone | null) => {
     setSelectedZone(zone);
   };
 
   const handleSelectZoneById = (zoneId: string) => {
-    const found = data.zones.find((z) => z.id === zoneId);
+    const found = data.zones.find((z: Zone) => z.id === zoneId);
     if (found) {
       setSelectedZone(found);
     }
@@ -36,6 +39,28 @@ export const OverviewPage: React.FC = () => {
 
   return (
     <div className="space-y-4 pb-4">
+      {/* Backend / Network Alert Banner if degraded */}
+      {isBackendUnavailable && (
+        <div className="bg-amber-50 border border-amber-200 rounded-[6px] p-3 flex items-center justify-between gap-3 text-xs text-amber-900 shadow-2xs">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+            <div>
+              <span className="font-bold">Backend Connectivity Degraded:</span>{' '}
+              {error || 'Unable to connect to live API. Showing cached/simulated baseline metrics.'}
+            </div>
+          </div>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() => refetch()}
+            className="shrink-0 flex items-center gap-1"
+          >
+            <RefreshCw className="w-3 h-3" />
+            <span>Retry Connection</span>
+          </Button>
+        </div>
+      )}
+
       {/* 1. Page Header (Compressed Height) */}
       <OverviewHeader
         regionalSeverity={data.kpis.regionalSeverity}
@@ -90,6 +115,9 @@ export const OverviewPage: React.FC = () => {
         totalDataSourcesCount={data.totalDataSourcesCount}
         telemetry={data.environmentalTelemetry}
       />
+
+      {/* 6. Zone Detail Drawer */}
+      <ZoneDetailDrawer zone={selectedZone} onClose={() => setSelectedZone(null)} />
     </div>
   );
 };
