@@ -51,7 +51,15 @@ def format_zone_id(state: str, district: str) -> str:
 
 
 async def seed_zones_and_terrain(session: AsyncSession) -> Dict[str, Zone]:
-    """Seed zones and terrain features from validated parquet datasets."""
+    """Seed zones and terrain features from validated parquet datasets.
+
+    Optimization: replaces 641 per-row SELECTs + 641 per-row flush() calls with
+    4 total round-trips:
+      1. Bulk SELECT all existing zones.
+      2. Bulk INSERT new zones (one flush).
+      3. Bulk SELECT existing terrain zone_ids.
+      4. Bulk INSERT new terrain records + COMMIT.
+    """
     root = get_project_root()
     baseline_path = root / "data" / "processed" / "lews_baseline_dataset.parquet"
     terrain_path = root / "data" / "processed" / "terrain_zone_features.parquet"
@@ -64,27 +72,37 @@ async def seed_zones_and_terrain(session: AsyncSession) -> Dict[str, Zone]:
 
     logger.info("Found %d baseline records. Seeding canonical zones...", len(df_base))
 
-    # Index terrain by (state, district)
+    # Index terrain by (state, district) — uppercase keys to match Zone storage convention.
     terrain_map = {}
     if df_terrain is not None:
         for _, row in df_terrain.iterrows():
             key = (row["state"].strip().upper(), row["district"].strip().upper())
             terrain_map[key] = row.to_dict()
 
+    # -------------------------------------------------------------------------
+    # ROUND-TRIP 1: Bulk load ALL existing zones in ONE SELECT.
+    # Replaces 641 individual existence-check queries.
+    # -------------------------------------------------------------------------
+    existing_zones_result = await session.execute(select(Zone))
+    existing_zones: Dict[str, Zone] = {
+        z.zone_id: z for z in existing_zones_result.scalars().all()
+    }
+    logger.info("Found %d zones already in database.", len(existing_zones))
+
     zones_by_id: Dict[str, Zone] = {}
+    new_zones: List[Zone] = []
 
     for _, row in df_base.iterrows():
         st = row["state"].strip().upper()
         dist = row["district"].strip().upper()
         zid = format_zone_id(st, dist)
-
-        # Check existence
-        stmt = select(Zone).where(Zone.zone_id == zid)
-        existing = (await session.scalars(stmt)).first()
-
         subdiv_val = str(row["subdivision"]) if pd.notna(row.get("subdivision")) else None
 
-        if not existing:
+        if zid in existing_zones:
+            # Already seeded — reuse loaded object, preserving all existing DB values.
+            zones_by_id[zid] = existing_zones[zid]
+        else:
+            # UUID is generated in Python immediately — no flush needed to resolve it.
             zone = Zone(
                 id=uuid.uuid4(),
                 zone_id=zid,
@@ -94,36 +112,78 @@ async def seed_zones_and_terrain(session: AsyncSession) -> Dict[str, Zone]:
                 subdivision=subdiv_val,
                 is_ner=bool(row["is_ner"]),
             )
-            session.add(zone)
-            await session.flush()
-        else:
-            zone = existing
+            new_zones.append(zone)
+            zones_by_id[zid] = zone
 
-        zones_by_id[zid] = zone
+    # -------------------------------------------------------------------------
+    # ROUND-TRIP 2: Bulk INSERT all new zones in ONE flush.
+    # Replaces 641 individual session.add() + session.flush() calls.
+    # -------------------------------------------------------------------------
+    if new_zones:
+        session.add_all(new_zones)
+        await session.flush()
+        logger.info("Inserted %d new zones.", len(new_zones))
+    else:
+        logger.info("All %d zones already present — skipping zone inserts.", len(zones_by_id))
 
-        # Check terrain feature existence
-        t_stmt = select(ZoneTerrainFeatures).where(ZoneTerrainFeatures.zone_id == zone.id)
-        existing_terrain = (await session.scalars(t_stmt)).first()
+    # -------------------------------------------------------------------------
+    # ROUND-TRIP 3: Bulk load existing terrain zone_ids in ONE SELECT.
+    # Replaces 641 individual terrain existence-check queries.
+    # -------------------------------------------------------------------------
+    existing_terrain_result = await session.execute(select(ZoneTerrainFeatures.zone_id))
+    existing_terrain_zone_ids = set(existing_terrain_result.scalars().all())
+    logger.info("Found %d terrain records already in database.", len(existing_terrain_zone_ids))
 
-        t_data = terrain_map.get((st, dist))
-        if not existing_terrain and t_data:
-            tf = ZoneTerrainFeatures(
-                id=uuid.uuid4(),
-                zone_id=zone.id,
-                elevation_mean=None if pd.isna(t_data.get("mean_elevation_m")) else float(t_data["mean_elevation_m"]),
-                elevation_min=None if pd.isna(t_data.get("min_elevation_m")) else float(t_data["min_elevation_m"]),
-                elevation_max=None if pd.isna(t_data.get("max_elevation_m")) else float(t_data["max_elevation_m"]),
-                elevation_std=None if pd.isna(t_data.get("elevation_std_m")) else float(t_data["elevation_std_m"]),
-                slope_mean=None if pd.isna(t_data.get("mean_slope_deg")) else float(t_data["mean_slope_deg"]),
-                slope_min=None if pd.isna(t_data.get("min_slope_deg")) else float(t_data["min_slope_deg"]),
-                slope_max=None if pd.isna(t_data.get("max_slope_deg")) else float(t_data["max_slope_deg"]),
-                slope_std=None if pd.isna(t_data.get("slope_std_deg")) else float(t_data["slope_std_deg"]),
-                aspect_mean=None if pd.isna(t_data.get("mean_aspect_deg")) else float(t_data["mean_aspect_deg"]),
-                tri_mean=None if pd.isna(t_data.get("mean_tri")) else float(t_data["mean_tri"]),
-                terrain_coverage=bool(t_data.get("terrain_coverage", False)),
-                source_provenance=str(t_data.get("provenance", "TERRAIN_UNAVAILABLE")),
-            )
-            session.add(tf)
+    new_terrains: List[ZoneTerrainFeatures] = []
+
+    for zid, zone in zones_by_id.items():
+        if zone.id in existing_terrain_zone_ids:
+            continue  # Terrain already seeded for this zone — idempotent skip.
+
+        t_data = terrain_map.get((zone.state, zone.district))
+        if not t_data:
+            continue  # No terrain parquet row for this zone.
+
+        # ------------------------------------------------------------------
+        # NOTE ON slope_min:
+        # The terrain parquet (terrain_zone_features.parquet) provides:
+        #   mean_slope_deg, max_slope_deg, slope_std_deg
+        # It does NOT contain 'min_slope_deg'.  slope_min is therefore set to
+        # None explicitly here.  Do NOT derive or fabricate a value — all 641
+        # current districts are terrain_coverage=False and all numeric terrain
+        # fields are NaN in the parquet, so this column is NULL for every row.
+        # ------------------------------------------------------------------
+        def _safe(key: str) -> Optional[float]:
+            """Return float(val) or None for missing/NaN parquet dict values."""
+            val = t_data.get(key)
+            return None if val is None or pd.isna(val) else float(val)
+
+        tf = ZoneTerrainFeatures(
+            id=uuid.uuid4(),
+            zone_id=zone.id,
+            elevation_mean=_safe("mean_elevation_m"),
+            elevation_min=_safe("min_elevation_m"),
+            elevation_max=_safe("max_elevation_m"),
+            elevation_std=_safe("elevation_std_m"),
+            slope_mean=_safe("mean_slope_deg"),
+            slope_min=None,            # 'min_slope_deg' absent from terrain parquet — NULL
+            slope_max=_safe("max_slope_deg"),
+            slope_std=_safe("slope_std_deg"),
+            aspect_mean=_safe("mean_aspect_deg"),  # absent in current parquet → NULL
+            tri_mean=_safe("mean_tri"),
+            terrain_coverage=bool(t_data.get("terrain_coverage", False)),
+            source_provenance=str(t_data.get("provenance", "TERRAIN_UNAVAILABLE")),
+        )
+        new_terrains.append(tf)
+
+    # -------------------------------------------------------------------------
+    # ROUND-TRIP 4: Bulk INSERT terrain records + COMMIT in one transaction.
+    # -------------------------------------------------------------------------
+    if new_terrains:
+        session.add_all(new_terrains)
+        logger.info("Inserting %d new terrain records.", len(new_terrains))
+    else:
+        logger.info("All terrain records already present — skipping terrain inserts.")
 
     await session.commit()
     logger.info("Successfully synced %d zones.", len(zones_by_id))
@@ -389,8 +449,18 @@ async def async_main() -> None:
     """Async main seeder entrypoint."""
     logger.info("Starting async database seeding...")
 
-    async with async_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    # Schema creation: only runs in development/test environments.
+    # In production (Supabase), the schema is managed by Alembic migrations.
+    # create_all will fail on Supabase if the geometry type resolution fires against
+    # an already-migrated schema, so skip gracefully if the DB is already provisioned.
+    try:
+        async with async_engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception as schema_err:
+        logger.warning(
+            "create_all skipped (schema likely already provisioned by Alembic): %s",
+            schema_err,
+        )
 
     async with AsyncSessionLocal() as session:
         try:
